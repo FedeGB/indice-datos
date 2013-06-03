@@ -25,7 +25,7 @@ char* binary_code(int number, int bits) {
 			binary[x] = '0';
 		}
 		else {
-			biney[x] = '1';
+			binary[x] = '1';
 		}
 	}
 	binary[bits] = '\0';
@@ -33,11 +33,11 @@ char* binary_code(int number, int bits) {
 	return binary;
 }
 
-char* gamma_code(int number) {
+char* base_code(int number, char* func(int)) {
 	int bits = (int)floor(log10(number)/log10(2)); // log(number) en base 2
 	int q = 1+bits;
-	char* gamma[q+bits+1];
-	strcpy(gamma,unary_code(q));
+	char* vec[q+bits+1];
+	strcpy(vec,func(q));
 	
 	int bin = number - (int)pow(2,(double)bits);
 	char* binary[bits+1];
@@ -45,10 +45,18 @@ char* gamma_code(int number) {
 	int x = 0;
 	
 	for(int i = q; i < (q+bits+1); i++) {
-		gamma[i] = binary[x];
+		vec[i] = binary[x];
 		x++;
 	}
-	gamma[q+bits] = '\0';
+	vec[q+bits] = '\0';
 	
-	return gamma;
+	return vec;
+}
+
+char* gamma_code(int number) {
+	return base_code(number,unary_code);
+}
+
+char* delta_code(int number) {
+	return base_code(number,gamma_code);	
 }
