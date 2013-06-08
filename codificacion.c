@@ -1,7 +1,8 @@
 #include <math.h>
-//#include <stdio.h>
 
-void unary_code(int number, char* unary) {
+typedef unsigned char uchar;
+
+void unary_code(int number, uchar* unary) {
 	int x = number - 1;
 	int p = 0;
 	while(p < x) {
@@ -12,7 +13,7 @@ void unary_code(int number, char* unary) {
 	unary[number] = '\0';
 }
 
-void binary_code(int number, int bits, char* binary) {
+void binary_code(int number, int bits, uchar* binary) {
 	int division = number;
 	
 	for(int x = 0; x < bits; x++) {
@@ -26,13 +27,13 @@ void binary_code(int number, int bits, char* binary) {
 	binary[bits] = '\0';
 }
 
-void base_code(int number, void func(int,char*), char* vec) {
+void base_code(int number, void func(int,uchar*), uchar* vec) {
 	int bits = (int)floor(log10(number)/log10(2)); // log(number) en base 2
 	int q = 1+bits;
 	func(q,vec);
 	
 	int bin = number - (int)pow(2,(double)bits);
-	char binary[bits+1];
+	uchar binary[bits+1];
 	binary_code(bin,bits,binary);
 	int x = 0;
 	
@@ -43,22 +44,10 @@ void base_code(int number, void func(int,char*), char* vec) {
 	vec[q+bits] = '\0';
 }
 
-void gamma_code(int number, char* gamma) {
+void gamma_code(int number, uchar* gamma) {
 	base_code(number,unary_code,gamma);
 }
 
-void delta_code(int number, char* delta) {
+void delta_code(int number, uchar* delta) {
 	base_code(number,gamma_code,delta);	
 }
-/*
-int main() {
-
-	char buff[100] = " ";
-	
-	unary_code(10,buff);
-	
-	printf("%s",buff);
-	
-	return 0;
-}*/
-
