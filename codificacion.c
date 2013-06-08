@@ -23,6 +23,7 @@ void binary_code(int number, int bits, uchar* binary) {
 		else {
 			binary[x] = '1';
 		}
+		division = division/2;
 	}
 	binary[bits] = '\0';
 }
