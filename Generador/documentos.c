@@ -16,12 +16,12 @@ doc_t* crear_documento(char* path, char* name,int size) {
 	doc_t* doc = malloc(sizeof(struct documento));
 	if(!doc)
 		return NULL;
-	doc->path = malloc(sizeof(char)*(path+1));
+	doc->path = malloc(sizeof(char)*(strlen(path)+1));
 	if(!doc->path) {
 		free(doc);
 		return NULL;
 	}
-	doc->name = malloc(sizeof(char)*(name+1));
+	doc->name = malloc(sizeof(char)*(strlen(name)+1));
 	if(!doc->name) {
 		free(doc);
 		free(doc->path);
