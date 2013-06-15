@@ -73,8 +73,8 @@ void base_code(int number, void func(int,uchar*), uchar* vec) {
 	while(!vec[i] == '\0')
 		i++;
 	pre = i;
-	for(i; i < (q+bits+1); i++) {
-		vec[i] = binary[x];
+	for(int z = i; z < (q+bits+1); z++) {
+		vec[z] = binary[x];
 		x++;
 	}
 	vec[pre+bits] = '\0';
@@ -105,8 +105,8 @@ int gamma_decode(uchar* gamma) {
 	memset(post,' ',q+1);
 	int y = x+q;
 	int i = 0;
-	for(x; x < y; x++) {
-		post[i] = gamma[x];
+	for(int t = x; t < y; t++) {
+		post[i] = gamma[t];
 		i++;
 	}
 	post[i++] = '\0';
@@ -128,8 +128,8 @@ int delta_decode(uchar* delta) {
 	memset(post,' ',q+1);
 	int x = len_max-q;
 	int y = 0;
-	for(x; x < len_max; x++) {
-		post[y] = delta[x];
+	for(int t = x; t < len_max; t++) {
+		post[y] = delta[t];
 		y++;
 	}
 	post[y++] = '\0';
