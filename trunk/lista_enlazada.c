@@ -225,7 +225,7 @@ order_list_t* crear_lista_ordenada(cmp_func_t cmp) {
 	lista_ordenada->lista = lista;
 	lista_ordenada->cmp = cmp;
 	
-	return lista;
+	return lista_ordenada;
 }
 
 bool lista_agregar_ordenado(order_list_t* list, void* dato) {
@@ -252,6 +252,7 @@ bool lista_agregar_ordenado(order_list_t* list, void* dato) {
 			list->lista->primer = nuevo;
 			return true;
 		}
+	}
 
 	while(actual != NULL) {
 		if(list->cmp(dato,actual->dato) >= 0) {
@@ -278,6 +279,6 @@ const lista_t* obtener_lista(order_list_t* list) {
 void destruir_lista_ordenada(order_list_t* list, void destruir_dato(void*)) {
 	if(!list)
 		return;
-	lista_destruir(list->lista,destuir_dato);
+	lista_destruir(list->lista,destruir_dato);
 	return;
 }
