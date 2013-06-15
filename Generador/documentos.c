@@ -21,15 +21,14 @@ doc_t* crear_documento(char* path, char* name,int size) {
 		free(doc);
 		return NULL;
 	}
+	strcpy(doc->path,path);
 	doc->name = malloc(sizeof(char)*(strlen(name)+1));
 	if(!doc->name) {
 		free(doc);
 		free(doc->path);
 		return NULL;
 	}
-		
-	strncpy(doc->path,path,strlen(path));
-	strncpy(doc->name,name,strlen(name));
+	strcpy(doc->name,name);
 	
 	doc->size = size;
 	
@@ -50,7 +49,7 @@ char* path_documento(doc_t* doc) {
 
 int size_documento(doc_t* doc) {
 	if(!doc)
-		return NULL;
+		return -1;
 	return doc->size;
 }
 
