@@ -2,8 +2,13 @@
 #include <string.h>
 #include "../indice-datos/codigos_retorno.h"
 #include "documentos.h"
+#include "indice-datos/lista_enlazada.h"
 
 #define BUFF_SIZE 500
+
+int fsize(FILE* fp);
+int cmp_alfa(const void* doc1,const void* doc2);
+int cmp_bsize(const void* doc1, const void* doc2);
 
 // Funcion que lee la coleccion de documentos.
 // Soporta tener subdirectorios (no tiene resolucion de bucle por accesos directos)
@@ -24,12 +29,15 @@ int leerColeccionPath(char* ruta){
 	struct dirent* file;
 	char aux[BUFF_SIZE];
 	char antes[BUFF_SIZE];
-	FILE* arch;
+	FILE* arch = NULL;
 	doc_t* doc_ac = NULL;
 	int size = 0;
-	
+	order_list_t* alfa_list = crear_lista_ordenada(cmp_alfa);
+	order_list_t* biggersize_list = crear_lista_ordenada(cmp_bsize);
+		
 	strncpy(antes, path, strlen(path));	//Carpeta base
-
+	
+	// Cargamos y ordenamos documentos con datos que nos interesan.
 	while(1) {
 		file = readdir(directorio);
 		if(!file) return RES_ERROR;
@@ -44,12 +52,12 @@ int leerColeccionPath(char* ruta){
 			
 			size = fsize(arch);
 			doc_ac = crear_documento(path,file->d_name,size);
-			// Metemos documento en una lista de forma que se ordene por "size" de mayor a menor
-			// Y metemos en otra que lo ordene en orden alfabetico
-			
-			
-		}		
-
+			lista_agregar_ordenado(alfa_list, doc_ac);
+			lista_agregar_ordenado(biggersize_list, doc_ac);
+			doc_ac = NULL;
+			fclose(arch);
+			arch = NULL;
+		}
 	}
 	closedir(directorio);
 	return RES_OK;
@@ -67,4 +75,25 @@ int fsize(FILE* fp) {
 	fseek(fp,0,SEEK_SET);
 	
 	return size;
+}
+
+// Funcion de comparacion para orden alfabetico
+int cmp_alfa(const void* doc1, const void* doc2) {
+    return strcmp(nombre_documento((doc_t*)doc1), nombre_documento((doc_t*)doc2->name));
+}
+
+// Funcion de comparacion por tamaño del documento
+// Devuelve invertido a lo que se supone que deben devolver las funciones cmp
+// Pues la lista ordena de menor a mayor, por ende para ordenarlo de mayor a menor
+// unicamente invertimos las devoluciones de las funciones cmp
+int cmp_bsize(const void* doc1, const void* doc2) {
+	if(size_documento((doc_t*)doc1) < size_documento((doc_t*)doc2)) {
+		return 1;
+	}
+	if(size_documento((doc_t*)doc1) > size_documento((doc_t*)doc2)) {
+		return -1;
+	}
+	else {
+		return 0;
+	}
 }
