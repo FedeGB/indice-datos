@@ -246,7 +246,7 @@ bool lista_agregar_ordenado(order_list_t* list, void* dato) {
 	actual = list->lista->primer;
 	anterior = NULL;
 	
-	if(list->cmp(dato,actual->dato) >= 0) {
+	if(list->cmp(dato,actual->dato) <= 0) {
 		if(actual == list->lista->primer) {
 			nuevo->siguiente = list->lista->primer;
 			list->lista->primer = nuevo;
@@ -255,7 +255,7 @@ bool lista_agregar_ordenado(order_list_t* list, void* dato) {
 	}
 
 	while(actual != NULL) {
-		if(list->cmp(dato,actual->dato) >= 0) {
+		if(list->cmp(dato,actual->dato) <= 0) {
 			nuevo->siguiente = actual;
 			anterior->siguiente = nuevo;
 			list->lista->tam++;
@@ -280,5 +280,6 @@ void destruir_lista_ordenada(order_list_t* list, void destruir_dato(void*)) {
 	if(!list)
 		return;
 	lista_destruir(list->lista,destruir_dato);
+	free(list);
 	return;
 }
