@@ -1,12 +1,13 @@
 #include <dirent.h>
 #include <string.h>
-#include "../indice-datos/codigos_retorno.h"
+#include <stdio.h>
+#include "codigos_retorno.c"
 #include "documentos.h"
-#include "indice-datos/lista_enlazada.h"
+#include "lista_enlazada.h"
 
 #define BUFF_SIZE 500
 
-int fsize(FILE* fp);
+int fsize(FILE *fp);
 int cmp_alfa(const void* doc1,const void* doc2);
 int cmp_bsize(const void* doc1, const void* doc2);
 
@@ -15,11 +16,11 @@ int cmp_bsize(const void* doc1, const void* doc2);
 // Devuelve RES_NULL en caso de que la ruta es un archivo y no un directorio
 int leerColeccionPath(char* ruta){
 
-	if(!path) return RES_ERROR;
+	if(!ruta) return RES_ERROR;
 	
 	char path[BUFF_SIZE];
-	
-	strncpy(path, ruta, strlen(ruta));
+	memset(path, ' ',BUFF_SIZE);
+	strcpy(path, ruta);
 
 	DIR* directorio = opendir(path);
 	if(!directorio) {
@@ -29,6 +30,8 @@ int leerColeccionPath(char* ruta){
 	struct dirent* file;
 	char aux[BUFF_SIZE];
 	char antes[BUFF_SIZE];
+	memset(aux, '\0', BUFF_SIZE);
+	memset(antes, '\0', BUFF_SIZE);
 	FILE* arch = NULL;
 	doc_t* doc_ac = NULL;
 	int size = 0;
@@ -40,16 +43,16 @@ int leerColeccionPath(char* ruta){
 	// Cargamos y ordenamos documentos con datos que nos interesan.
 	while(1) {
 		file = readdir(directorio);
-		if(!file) return RES_ERROR;
+		if(!file) break;
 		if(strcmp(file->d_name, ".") == 0 || strcmp(file->d_name, "..") == 0)
 			continue;
 		snprintf(aux, strlen(antes)+strlen(file->d_name)+2, "%s/%s", antes, file->d_name);
+		memset(path, '\0', BUFF_SIZE);
 		strcpy(path,aux);
 		if(leerColeccionPath(path) != RES_OK){ //Si no es un directorio continuamos a procesar el archivo
 			arch = fopen(path,"r");
 			if(!arch)
 				return RES_NULL;
-			
 			size = fsize(arch);
 			doc_ac = crear_documento(path,file->d_name,size);
 			lista_agregar_ordenado(alfa_list, doc_ac);
@@ -60,6 +63,14 @@ int leerColeccionPath(char* ruta){
 		}
 	}
 	closedir(directorio);
+	iter_lista_t* iter = crear_iterador_lista(obtener_lista(biggersize_list));
+	while(!iter_lista_final(iter)) {
+		printf("%s\n",(char*)nombre_documento((doc_t*)iter_lista_ver_actual(iter)));
+		iter_lista_avanzar(iter);
+	}
+	iter_lista_destruir(iter);
+	destruir_lista_ordenada(alfa_list, NULL);
+	destruir_lista_ordenada(biggersize_list,(void(*)(void*))destruir_documento);
 	return RES_OK;
 }
 
@@ -79,7 +90,7 @@ int fsize(FILE* fp) {
 
 // Funcion de comparacion para orden alfabetico
 int cmp_alfa(const void* doc1, const void* doc2) {
-    return strcmp(nombre_documento((doc_t*)doc1), nombre_documento((doc_t*)doc2->name));
+    return strcmp(nombre_documento((doc_t*)doc1), nombre_documento((doc_t*)doc2));
 }
 
 // Funcion de comparacion por tamaño del documento
