@@ -54,8 +54,9 @@ int size_documento(doc_t* doc) {
 }
 
 void destruir_documento(doc_t* doc) {
-	free(doc->path);
-	free(doc->name);
-	free(doc);
+	doc_t* docu = (doc_t*)doc;
+	free(docu->path);
+	free(docu->name);
+	free(docu);
 	return;
 }
