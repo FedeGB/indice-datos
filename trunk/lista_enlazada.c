@@ -134,9 +134,9 @@ void lista_destruir(lista_t* list, void destruir_dato(void*)) {
 		return;
 	while(!lista_vacia(list)) {
 		void* dato = lista_borrar_primer(list);
-		
-		if(destruir_dato)
+		if(destruir_dato) {
 			destruir_dato(dato);
+		}
 	}
 	free(list);
 	return;
@@ -250,6 +250,7 @@ bool lista_agregar_ordenado(order_list_t* list, void* dato) {
 		if(actual == list->lista->primer) {
 			nuevo->siguiente = list->lista->primer;
 			list->lista->primer = nuevo;
+			list->lista->tam++;
 			return true;
 		}
 	}
@@ -268,6 +269,7 @@ bool lista_agregar_ordenado(order_list_t* list, void* dato) {
 	nuevo->siguiente = NULL;
 	anterior->siguiente = nuevo;
 	list->lista->ultimo = nuevo;
+	list->lista->tam++;
 	
 	return true;			
 }
@@ -279,7 +281,7 @@ const lista_t* obtener_lista(order_list_t* list) {
 void destruir_lista_ordenada(order_list_t* list, void destruir_dato(void*)) {
 	if(!list)
 		return;
-	lista_destruir(list->lista,destruir_dato);
+	lista_destruir(list->lista, destruir_dato);
 	free(list);
 	return;
 }
