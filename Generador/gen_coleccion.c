@@ -7,12 +7,13 @@
 #include "codificacion.c"
 
 #define BUFF_SIZE 500
+#define BUFF_LINEA 100
 
 int leerColeccionPath(char* ruta, order_list_t* alfa_list, order_list_t* biggersize_list);
 int fsize(FILE *fp);
 int cmp_alfa(const void* doc1,const void* doc2);
 int cmp_bsize(const void* doc1, const void* doc2);
-
+void removerSalto(char* str);
 
 
 // Funcion que lee la coleccion de documentos.
@@ -68,13 +69,71 @@ int leerColeccionPath(char* ruta, order_list_t* alfa_list, order_list_t* biggers
 	return RES_OK;
 }
 
-int tamanyo_bloque_FCP(int cantidad) {
-	if(cantidad <= 1000) {
-		return 100;
+// Funcion de merge para varios archivos
+// Devuelve el codigo de retorno correspondiente.
+// Pre: Recibe un array de strings con los nombres de los documentos de entrada
+// (incluyendo extension), la cantidad y el nombre del documento de salida (con extension)
+// Post: RES_OK (merge satisfactorio), 
+// RES_NULL (No se puedo o abrir algun archivo de entrada o crear el archivo de salida)
+int doc_merge(char** inputs, int cant_i, char* output) {
+	FILE* input_vec[cant_i];
+	FILE* fo = fopen(output,"w");
+	if(!fo)
+		return RES_NULL;
+	int i;
+	for(i = 0; i < cant_i; i++) {
+		input_vec[i] = fopen(inputs[i],"r");
+		if(!input_vec[i]) {
+			for(int x = 0; x < i; x++)
+				fclose(input_vec[x]);
+			fclose(fo);
+			return RES_NULL;
+		}
 	}
-	else {
-		return (int)(floor((((log10((double)cantidad)/3)-1)*900)+100));
+	
+	char lineas[cant_i][BUFF_LINEA];
+	char* status;
+	for(i = 0; i < cant_i; i++) {
+		status = fgets(lineas[i], BUFF_LINEA, input_vec[i]);
 	}
+	int eof = 0;
+	int n_menor = 0;
+	while(1) {
+		for(i = 0; i < cant_i; i++) {
+			if(feof(input_vec[i]))
+				eof++;
+		}
+		if(eof == cant_i) {
+			break;
+		}
+		else {
+			eof = 0;
+		}		
+		for(i = 0; i < cant_i; i++) {
+			if((!feof(input_vec[i])) && (i != n_menor)) {
+				if(strcmp(lineas[i],lineas[n_menor]) < 0) {
+					n_menor = i;
+				}
+			}
+			// En caso de ser iguales para los terminos seria sumarle uno a la frecuencia del mismo
+			// lo cual quizas podriamos solucionar pasando o no una funcion o algo a parte
+		}
+		fprintf(fo,"%s",lineas[n_menor]);
+		status = fgets(lineas[n_menor],BUFF_LINEA,input_vec[n_menor]);
+		if(feof(input_vec[n_menor])) {
+			for(i = 0; i < cant_i; i++) {
+				if(!feof(input_vec[i])) {
+					n_menor = i;
+					break;
+				}
+			}
+		}
+	}
+	for(i = 0; i < cant_i; i++)
+		fclose(input_vec[i]);
+	fclose(fo);
+	
+	return RES_OK;
 }
 
 // Retorna el peso del archivo
@@ -110,4 +169,10 @@ int cmp_bsize(const void* doc1, const void* doc2) {
 	else {
 		return 0;
 	}
+}
+
+// Remueve los '\n' de la cadena que se le pase por parametro.
+void removerSalto(char* str){
+	
+	str[strcspn ( str, "\n" )] = '\0';
 }
