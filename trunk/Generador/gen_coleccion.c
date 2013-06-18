@@ -4,17 +4,21 @@
 #include "codigos_retorno.c"
 #include "documentos.h"
 #include "lista_enlazada.h"
+#include "codificacion.c"
 
 #define BUFF_SIZE 500
 
+int leerColeccionPath(char* ruta, order_list_t* alfa_list, order_list_t* biggersize_list);
 int fsize(FILE *fp);
 int cmp_alfa(const void* doc1,const void* doc2);
 int cmp_bsize(const void* doc1, const void* doc2);
 
+
+
 // Funcion que lee la coleccion de documentos.
 // Soporta tener subdirectorios (no tiene resolucion de bucle por accesos directos)
 // Devuelve RES_NULL en caso de que la ruta es un archivo y no un directorio
-int leerColeccionPath(char* ruta){
+int leerColeccionPath(char* ruta, order_list_t* alfa_list, order_list_t* biggersize_list){
 
 	if(!ruta) return RES_ERROR;
 	
@@ -35,8 +39,6 @@ int leerColeccionPath(char* ruta){
 	FILE* arch = NULL;
 	doc_t* doc_ac = NULL;
 	int size = 0;
-	order_list_t* alfa_list = crear_lista_ordenada(cmp_alfa);
-	order_list_t* biggersize_list = crear_lista_ordenada(cmp_bsize);
 		
 	strncpy(antes, path, strlen(path));	//Carpeta base
 	
@@ -63,15 +65,16 @@ int leerColeccionPath(char* ruta){
 		}
 	}
 	closedir(directorio);
-	iter_lista_t* iter = crear_iterador_lista(obtener_lista(biggersize_list));
-	while(!iter_lista_final(iter)) {
-		printf("%s\n",(char*)nombre_documento((doc_t*)iter_lista_ver_actual(iter)));
-		iter_lista_avanzar(iter);
-	}
-	iter_lista_destruir(iter);
-	destruir_lista_ordenada(alfa_list, NULL);
-	destruir_lista_ordenada(biggersize_list,(void(*)(void*))destruir_documento);
 	return RES_OK;
+}
+
+int tamanyo_bloque_FCP(int cantidad) {
+	if(cantidad <= 1000) {
+		return 100;
+	}
+	else {
+		return (int)(floor((((log10((double)cantidad)/3)-1)*900)+100));
+	}
 }
 
 // Retorna el peso del archivo
