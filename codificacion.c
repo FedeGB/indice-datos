@@ -6,7 +6,7 @@ typedef unsigned char uchar;
 
 // Escribe un numero en unario
 // recibe un buffer en donde depositara el codigo unario
-void unary_code(int number, uchar* unary) {
+void unary_code(long int number, uchar* unary) {
 	int x = number - 1;
 	int p = 0;
 	while(p < x) {
@@ -18,7 +18,7 @@ void unary_code(int number, uchar* unary) {
 }
 
 // Decodifica un codigo unario
-int unary_decode(uchar* unary) {
+long int unary_decode(uchar* unary) {
 	int i = 0;
 	while(unary[i] != 0)
 		i++;
@@ -29,7 +29,7 @@ int unary_decode(uchar* unary) {
 // Recibe un buffer en donde depositara el codigo binario
 // Pre: el numero debe poder representarse con la cantidad de bits indicada
 // Post: El codigo binario devuelto se lee de izquierda a derecha
-void binary_code(int number, int bits, uchar* binary) {
+void binary_code(long int number, int bits, uchar* binary) {
 	int division = number;
 	
 	for(int x = 0; x < bits; x++) {
@@ -45,7 +45,7 @@ void binary_code(int number, int bits, uchar* binary) {
 }
 
 // Decodifica un codigo binario
-int binary_decode(uchar* binary) {
+long int binary_decode(uchar* binary) {
 	int x = 0;
 	int number = 0;
 	
@@ -59,7 +59,7 @@ int binary_decode(uchar* binary) {
 
 // Funcion que genera un codigo con una primera parte en codigo especificado (func)
 // y la segunda parte en codigo binario
-void base_code(int number, void func(int,uchar*), uchar* vec) {
+void base_code(long int number, void func(int,uchar*), uchar* vec) {
 	int bits = (int)floor(log10(number)/log10(2)); // log(number) en base 2
 	int q = 1+bits;
 	func(q,vec);
@@ -82,12 +82,12 @@ void base_code(int number, void func(int,uchar*), uchar* vec) {
 
 // Escribe un numero en codigo gamma
 // Recibe un buffer en el cual se depositara el codigo gamma
-void gamma_code(int number, uchar* gamma) {
+void gamma_code(long int number, uchar* gamma) {
 	base_code(number,unary_code,gamma);
 }
 
 // Decodifica un codigo gamma
-int gamma_decode(uchar* gamma) {
+long int gamma_decode(uchar* gamma) {
 	int len_max = strlen((char*)gamma);
 	uchar pre[len_max]; // No conozco el maximo a priori pero no es mayor al gamma recibido
 	memset(pre,' ',len_max);
@@ -115,12 +115,12 @@ int gamma_decode(uchar* gamma) {
 
 // Escribe un numero en codigo delta
 // Recibe un buffer en el cual se dpositara el codigo delta
-void delta_code(int number, uchar* delta) {
+void delta_code(long int number, uchar* delta) {
 	base_code(number,gamma_code,delta);	
 }
 
 // Decodifica un codigo delta
-int delta_decode(uchar* delta) {
+long int delta_decode(uchar* delta) {
 	int len_max = strlen((char*)delta);
 	int q = gamma_decode(delta);
 	q = q-1;

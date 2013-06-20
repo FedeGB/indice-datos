@@ -7,6 +7,7 @@ struct documento {
 	char* path;
 	char* name;
 	int size;
+	int num;
 };
 
 // Primitivas
@@ -31,6 +32,7 @@ doc_t* crear_documento(char* path, char* name,int size) {
 	strcpy(doc->name,name);
 	
 	doc->size = size;
+	doc->num = -1;
 	
 	return doc;
 }
@@ -51,6 +53,19 @@ int size_documento(doc_t* doc) {
 	if(!doc)
 		return -1;
 	return doc->size;
+}
+
+void set_numero_documento(doc_t* doc, int numero) {
+	if(!doc)
+		return;
+	doc->num = numero;
+	return;
+}
+
+int numero_documento(doc_t* doc) {
+	if(!doc)
+		return RES_NULL;
+	return doc->num;
 }
 
 void destruir_documento(doc_t* doc) {

@@ -17,6 +17,12 @@ int main(int argc, char** argv) {
 		destruir_lista_ordenada(biggersize_list,(void(*)(void*))destruir_documento);
 		return RES_NULL;
 	}
+	if(pasada_Documentos(alfa_list) != RES_OK) {
+		printf("Error al leer o escribir archivos\n");
+		destruir_lista_ordenada(alfa_list, NULL);
+		destruir_lista_ordenada(biggersize_list,(void(*)(void*))destruir_documento);
+		return RES_NULL;
+	}
 	
 	destruir_lista_ordenada(alfa_list, NULL);
 	destruir_lista_ordenada(biggersize_list,(void(*)(void*))destruir_documento);

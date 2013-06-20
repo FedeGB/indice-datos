@@ -22,6 +22,12 @@ char* path_documento(doc_t* doc);
 // Devuelve NULL en caso de error
 int size_documento(doc_t* doc);
 
+// Setea el numero del documento
+void set_numero_documento(doc_t* doc, int numero);
+
+// Devuelve el numero del documento 
+int numero_documento(doc_t* doc);
+
 // Destruye y libera la memoria allocada
 void destruir_documento(doc_t* doc);
 
