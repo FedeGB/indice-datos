@@ -5,11 +5,13 @@
 #include "documentos.h"
 #include "lista_enlazada.h"
 #include "codificacion.c"
+#include "front_coding.c"
 
 #define BUFF_SIZE 500
 #define BUFF_LINEA 100
 
 int leerColeccionPath(char* ruta, order_list_t* alfa_list, order_list_t* biggersize_list);
+int doc_merge(char** inputs, int cant_i, char* output);
 int fsize(FILE *fp);
 int cmp_alfa(const void* doc1,const void* doc2);
 int cmp_bsize(const void* doc1, const void* doc2);
@@ -136,6 +138,38 @@ int doc_merge(char** inputs, int cant_i, char* output) {
 	return RES_OK;
 }
 
+int pasada_Documentos(order_list_t* alfa_list) {
+	if(!alfa_list)
+		return RES_ERROR;
+	FILE* predoc = fopen("predoc.ax", "w");
+	if(!predoc)
+		return RES_NULL;
+	iter_lista_t* iter = crear_iterador_lista(obtener_lista(alfa_list));
+	doc_t* actual = NULL;
+	int n_act = 1;
+	
+	while(!iter_lista_final(iter)) {
+		actual = (doc_t*)iter_lista_ver_actual(iter);
+		set_numero_documento(actual, n_act);
+		fprintf(predoc, "%s\n", (char*)nombre_documento(actual));
+		n_act++;
+		iter_lista_avanzar(iter);
+	}
+	iter_lista_destruir(iter);
+	fclose(predoc);
+	predoc = fopen("predoc.ax", "r");
+	if(!predoc)
+		return RES_NULL;
+	int sts = FCP_docs(predoc, "doc.char", "doc.dif", "doc.off", (int)lista_len(obtener_lista(alfa_list)));
+	if(sts != RES_OK) {
+		fclose(predoc);
+		return sts;
+	}
+	// Borrar documento predoc.ax
+	return RES_OK;
+}
+	
+	
 // Retorna el peso del archivo
 int fsize(FILE* fp) {
 	
