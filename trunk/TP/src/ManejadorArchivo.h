@@ -15,15 +15,17 @@ class ManejadorArchivo {
   public:
     const std::string rutaConNombre;
     std::ofstream archivoHandler;
-    char buffer[1];
-    char bitsEnBuffer;
+    unsigned char buffer[1];
+    unsigned char bitsEnBuffer;
 
     ManejadorArchivo(const std::string &rutaConNombre);
     virtual ~ManejadorArchivo();
 
-    void escribir(const char * const datos, const int cantidadBits);
+    void escribirBinario(const unsigned char * const datos, const int cantidadBits);
 
     void escribirSinCodificar(const std::string &cadena);
+
+    void close();
 };
 
 #endif /* MANEJADORARCHIVO_H_ */

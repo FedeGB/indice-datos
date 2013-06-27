@@ -9,6 +9,7 @@
  */
 
 #include <string>
+#include <stdint.h>
 #include "./ManejadorArchivo.h"
 
 class ManejadorOffset {
@@ -27,7 +28,7 @@ class ManejadorOffset {
 
     void close();
 
-    void escribirOffsetsNombresDocumento(const unsigned int offsetBytesDiferencias, const unsigned int offsetBitsDiferencias, const unsigned int offsetBytesCaracteres);
+    void escribirOffsetsNombresDocumento(const uint64_t offsetBytesDiferencias, const unsigned char offsetBitsDiferencias, const uint64_t offsetBytesCaracteres);
 };
 
 #endif /* MANEJADOROFFSET_H_ */

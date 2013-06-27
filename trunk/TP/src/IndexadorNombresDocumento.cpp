@@ -27,6 +27,9 @@ void IndexadorNombresDocumento::indexar(const Documento &documento) {
     // Si llegué al tamaño máximo del bloque...
     // Escribir los offsets del próximo bloque en el archivo de offsets de bloques.
     offsetManejador.escribirOffsetsNombresDocumento(fcp.offsetBytesDiferencias, fcp.offsetBitsDiferencias, fcp.offsetBytesCaracteres);
+    // Reinicializo los offset del fcp.
+    fcp.offsetBytesDiferencias = fcp.offsetBitsDiferencias = 0;
+    fcp.offsetBytesCaracteres = fcp.offsetBitsCaracteres = 0;
     // Fuerzo un "caracteres iguales = 0" para la proxima cadena a escribir.
     fcp.cadenaAnterior = "";
   }

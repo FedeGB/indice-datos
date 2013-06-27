@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <list>
 #include <string>
 #include "./Indexador.h"
 #include "./RetornoCodigos.h"
@@ -39,10 +40,12 @@ int OTROmain(int argc, char *argv[]) {
   std::string indiceNombre(argv[2]);
   std::cout << "El nombre del repositorio es: " << indiceNombre << std::endl;
 
-  // TODO (): Parsear los argumentos para obtener la consulta.
-  std::string consulta("*****************ACÁ VA LA CONSULTA*****************");
+  std::list< std::string > listaTerminos;
+  // TODO (Necesario): Parsear los argumentos para obtener la consulta.
+  std::string termino("*****************ACÁ VA LA EL TÉRMINO*****************");
+  // listaTerminos.push_back(termino);
 
-  std::cout << "La consulta es por: \"" << consulta << "\"" << std::endl;
+  std::cout << "Se agregó término de consulta: \"" << termino << "\"" << std::endl;
   std::string indiceRuta("./");
 
   //Consultador consultador(indiceNombre, indiceRuta);
