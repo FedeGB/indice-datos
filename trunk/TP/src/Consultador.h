@@ -9,11 +9,13 @@ class Consultador {
 		std::string indiceNombre;
 		std::string repositorioRuta;
 		
-		Consultador(const std::string &indiceNombre, const std::string &repositorioRuta);
+		Consultador(const std::string &indiceNombre, const std::string &indiceRuta);
 		
 		int abrirIndice();
 		
 		int consultar( std::list< std::string > listaTerminos);
+		
+		virtual ~Consultador();
 	
 };
 
