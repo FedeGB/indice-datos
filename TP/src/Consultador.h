@@ -1,6 +1,9 @@
 #ifndef CONSULTADOR_H
 #define CONSULTADOR_H
 
+#include <iostream>
+#include <list>
+
 class Consultador {
 	public:
 		std::string indiceNombre;
