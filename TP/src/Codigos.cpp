@@ -83,7 +83,7 @@ void DDelta::leerBinario(uchar* bytes, size_t nBytes, uchar* buffer) {
 	return;
 }
 
-int DDelta::decodificar(uchar* bytes, size_t nBytes, long int* numero) {
+int DDelta::decodificar(uchar* bytes, size_t nBytes, unsigned long int* numero) {
 	uchar buffer[(8*nBytes)+1];
 	memset(buffer, '\0', 8*nBytes);
 	leerBinario(bytes, nBytes, buffer);
@@ -97,7 +97,7 @@ int DDelta::decodificar(uchar* bytes, size_t nBytes, long int* numero) {
  * Funciones codificacion
  *****************************/
 
-int unary_code(long int number, uchar* unary) {
+int unary_code(unsigned long int number, uchar* unary) {
   int x = number - 1;
   int p = 0;
   while (p < x) {
@@ -109,7 +109,7 @@ int unary_code(long int number, uchar* unary) {
   return (int) number;
 }
 
-int binary_code(long int number, int bits, uchar* binary) {
+int binary_code(unsigned long int number, int bits, uchar* binary) {
   int division = number;
 
   for (int x = 0; x < bits; x++) {
@@ -124,7 +124,7 @@ int binary_code(long int number, int bits, uchar* binary) {
   return bits;
 }
 
-int base_code(long int number, int func(long int, uchar*), uchar* vec) {
+int base_code(unsigned long int number, int func(unsigned long int, uchar*), uchar* vec) {
   int bits = (int) floor(log10(number) / log10(2));  // log(number) en base 2
   int q = 1 + bits;
   func(q, vec);
@@ -146,7 +146,7 @@ int base_code(long int number, int func(long int, uchar*), uchar* vec) {
   return (pre + bits);
 }
 
-int gamma_code(long int number, uchar* gamma) {
+int gamma_code(unsigned long int number, uchar* gamma) {
   return base_code(number, unary_code, gamma);
 }
 
@@ -154,16 +154,16 @@ int gamma_code(long int number, uchar* gamma) {
  * Funciones decodificacion
  *****************************/
 
-long int unary_decode(uchar* unary) {
-  int i = 0;
+unsigned long int unary_decode(uchar* unary) {
+  unsigned long int i = 0;
   while (unary[i] != 0)
     i++;
   return i;
 }
 
-long int binary_decode(uchar* binary) {
+unsigned long int binary_decode(uchar* binary) {
   int x = 0;
-  int number = 0;
+  unsigned long int number = 0;
 
   while (binary[x] != '\0') {
     if (binary[x] == '1') number += (int) pow(2, (double) x);
@@ -172,7 +172,7 @@ long int binary_decode(uchar* binary) {
   return number;
 }
 
-long int gamma_decode(uchar* gamma, int* usados) {
+unsigned long int gamma_decode(uchar* gamma, int* usados) {
   int len_max = strlen((char*) gamma);
   uchar pre[len_max];  // No conozco el maximo a priori pero no es mayor al gamma recibido
   memset(pre, ' ', len_max);
@@ -196,10 +196,10 @@ long int gamma_decode(uchar* gamma, int* usados) {
   }
   post[i++] = '\0';
   *usados = y;
-  return (int) pow(2, (double) q) + binary_decode(post);
+  return (unsigned long int) pow(2, (double) q) + binary_decode(post);
 }
 
-long int delta_decode(uchar* delta, int* usados) {
+unsigned long int delta_decode(uchar* delta, int* usados) {
   int w = 0;
   int q = gamma_decode(delta, &w);
   q = q - 1;
@@ -214,5 +214,5 @@ long int delta_decode(uchar* delta, int* usados) {
   }
   post[y++] = '\0';
   *usados = t++;
-  return (int) pow(2, (double) q) + binary_decode(post);
+  return (unsigned long int) pow(2, (double) q) + binary_decode(post);
 }
