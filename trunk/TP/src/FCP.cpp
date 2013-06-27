@@ -24,9 +24,22 @@ void FCP::close() {
   // TODO
 }
 
-void FCP::indexar(const Documento &documento) {
+void FCP::escribir(const std::string &cadenaActual) {
   std::cout << "Ejecutando FCP::indexar()." << std::endl;
-  // TODO
+  unsigned int iguales = 0;
+  unsigned int distintos = 0;
+  unsigned int posicion = 0;
+  unsigned int actualLargo = cadenaActual.length();
+  unsigned int anteriorLargo = cadenaAnterior.length();
+  const char *pActual = cadenaActual.c_str();
+  const char *pAnterior = cadenaAnterior.c_str();
+  while ((posicion < actualLargo) && (posicion < anteriorLargo) && (pActual[posicion] == pAnterior[posicion])) {
+    ++posicion;
+  }
+  iguales = posicion;
+  distintos = actualLargo - iguales;
+  cadenaAnterior = cadenaActual;
+  //std::string()
 }
 
 unsigned int FCP::getOffsetBytesCaracteres() {

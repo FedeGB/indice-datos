@@ -9,7 +9,6 @@
  */
 
 #include <string>
-#include "./Documento.h"
 #include "./ManejadorArchivo.h"
 
 class FCP {
@@ -23,10 +22,14 @@ class FCP {
     const unsigned int bloqueTamanyo;
     ManejadorArchivo manejadorArchivoCaracteres;
     ManejadorArchivo manejadorArchivoDiferencias;
+
+    std::string cadenaAnterior;
     unsigned int offsetBytesCaracteres;
     unsigned int offsetBitsCaracteres;
     unsigned int offsetBytesDiferencias;
     unsigned int offsetBitsDiferencias;
+
+
 
     FCP(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo);
 
@@ -34,7 +37,7 @@ class FCP {
 
     void close();
 
-    void indexar(const Documento &documento);
+    void escribir(const std::string &cadenaActual);
 
     unsigned int getOffsetBytesCaracteres();
     unsigned int getOffsetBitsCaracteres();
