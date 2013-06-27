@@ -9,7 +9,8 @@
 #include <iostream>
 #include "./Documento.h"
 
-IndexadorNombresDocumento::IndexadorNombresDocumento() {
+IndexadorNombresDocumento::IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const unsigned int tamanyoBloque)
+    : archivosSalidaRuta(archivosSalidaRuta), tamanyoBloque(tamanyoBloque), archivoHandler(archivosSalidaRuta.c_str(), std::ofstream::out){
   std::cout << "Ejecutando IndexadorNombresDocumento::IndexadorNombresDocumento()." << std::endl;
 }
 
@@ -18,5 +19,9 @@ IndexadorNombresDocumento::~IndexadorNombresDocumento() {
 }
 
 void IndexadorNombresDocumento::indexar(const Documento &documento) {
+  // TODO (Iván)
+}
 
+void IndexadorNombresDocumento::close() {
+  archivoHandler.close();
 }
