@@ -14,3 +14,4 @@ void Documento::setSerial(int num) {
 	this->serial = num;
 }
 
+Documento::~Documento() { }
