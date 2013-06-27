@@ -1,5 +1,5 @@
 #include "Termino.h"
-#include <list>
+#include <set>
 
 
 Termino::Termino(const std::string &str): termino(str) {
@@ -13,12 +13,6 @@ void Termino::aumentarFrecuencia() {
 	frecuenciaGlobal++;
 }
 
-bool ordenarTerminoAlfabeticamente(const Termino &primer, const Termino &segundo) {
-	if(primer.termino.compare(segundo.termino) <= 0)
-		return true;
-	return false;
-}
-
 void Termino::agregarLocalizacion(Localizacion &local) {
 	std::pair< std::set< Localizacion >::iterator, bool > retorno;
 	retorno = localizaciones.insert(local);
@@ -29,7 +23,7 @@ void Termino::agregarLocalizacion(Localizacion &local) {
 	
 
 void Localizacion::unirLocalizacion(Localizacion &local) {
-	std::set<int>::iterator iter = local.posiciones.begin();
+	std::set< int >::iterator iter = local.posiciones.begin();
 	while(iter != local.posiciones.end()) {
 		posiciones.insertar(*iter);
 		aumentarFrecuencia();
@@ -38,7 +32,7 @@ void Localizacion::unirLocalizacion(Localizacion &local) {
 }
 
 
-Localizacion::Localizacion(int numeroDoc); numeroDoc = numeroDoc {
+Localizacion::Localizacion(int numeroDoc): numeroDoc(numeroDoc) {
 	frecuenciaLocal = 1;
 }
 
@@ -52,14 +46,20 @@ int Localizacion::agregarPosicion(int pos) {
 	posiciones.insert(pos);
 }
 
-bool ordenarPorNumeroDoc(const Localizacion &primer, const Localizacion &segundo) {
+bool Ordenamiento::ordenarPorNumeroDoc(const Localizacion &primer, const Localizacion &segundo) {
 	if(primer.numeroDoc <= segundo.numeroDoc) 
 		return true;
 	return false;
 }
 
-bool ordenarNumericamente(const int primer, const int segundo) {
+bool Ordenamiento::ordenarNumericamente(const int primer, const int segundo) {
 	if(primer <= segundo)
+		return true;
+	return false;
+}
+
+bool Ordenamiento::ordenarTerminoAlfabeticamente(const Termino &primer, const Termino &segundo) {
+	if(primer.termino.compare(segundo.termino) <= 0)
 		return true;
 	return false;
 }
