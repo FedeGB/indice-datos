@@ -25,8 +25,11 @@ void IndexadorNombresDocumento::indexar(const Documento &documento) {
   std::cout << "Ejecutando IndexadorNombresDocumento::indexar()." << std::endl;
   if (contadorIndexados >= bloqueTamanyo) {
     // Terminar un bloque.
+    // obtener los offset de fcp, y escribirlo con el manejador de offset.
+    // Fuerzo un "caracteres iguales = 0" para la proxima cadena a escribir.
+    fcp.cadenaAnterior = "";
   }
-  fcp.indexar(documento);
+  fcp.escribir(documento.nombre);
   ++contadorIndexados;
 }
 
