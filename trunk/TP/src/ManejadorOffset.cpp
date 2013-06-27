@@ -8,8 +8,8 @@
 #include "./ManejadorOffset.h"
 #include <string>
 
-ManejadorOffset::ManejadorOffset(const std::string &archivosSalidaRuta, const std::string &indiceNombre)
-    : archivosSalidaRuta(archivosSalidaRuta), indiceNombre(indiceNombre) {
+ManejadorOffset::ManejadorOffset(const std::string &ruta, const std::string &indiceNombre)
+    : ruta(ruta), indiceNombre(indiceNombre), manejadorArchivo(ruta + indiceNombre + "DocNomOff.bin") {
   // TODO Auto-generated constructor stub
 }
 

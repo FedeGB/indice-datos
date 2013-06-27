@@ -9,16 +9,19 @@
  */
 
 #include <string>
+#include "./ManejadorArchivo.h"
 
 class ManejadorOffset {
   public:
     // Ruta al directorio donde se crearán los archivos.
-    const std::string archivosSalidaRuta;
+    const std::string ruta;
 
     // Nombre del indice, para ponérselo a los archivos que componen al índice.
     const std::string indiceNombre;
 
-    ManejadorOffset(const std::string &archivosSalidaRuta, const std::string &indiceNombre);
+    ManejadorArchivo manejadorArchivo;
+
+    ManejadorOffset(const std::string &ruta, const std::string &indiceNombre);
 
     virtual ~ManejadorOffset();
 

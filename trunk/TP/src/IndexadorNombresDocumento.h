@@ -19,13 +19,14 @@ class IndexadorNombresDocumento {
     // Ruta al directorio donde se crearán los archivos.
     const std::string archivosSalidaRuta;
 
-    // Nombre del indice, para ponérselo a los archivos que componen al índice.
+    // Nombre del índice, para ponérselo a los archivos que componen al índice.
     const std::string indiceNombre;
-    const unsigned int tamanyoBloque;
+    const unsigned int bloqueTamanyo;
+    unsigned int contadorNombres;
     FCP fcp;
     ManejadorOffset offsetManejador;
 
-    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int tamanyoBloque);
+    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo);
 
     virtual ~IndexadorNombresDocumento();
 
