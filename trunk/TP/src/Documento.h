@@ -1,5 +1,5 @@
-#ifndef DOCUMENTOS_H
-#define DOCUMENTOS_H
+#ifndef DOCUMENTOS_H_
+#define DOCUMENTOS_H_
 
 /*
  * Documento.h
@@ -22,4 +22,4 @@ class Documento {
     static bool ordenadorDeDocumentosPorTamanyo(const Documento &primero, const Documento &segundo);
 };
 
-#endif
+#endif /* DOCUMENTOS_H_ */

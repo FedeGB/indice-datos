@@ -7,6 +7,7 @@
 
 #include "./Documento.h"
 #include "./Indexador.h"
+#include "./IndexadorNombresDocumento.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -31,12 +32,12 @@ void Indexador::indexar() {
   std::list< Documento > listadoDocumentosAlfabetico;
   generarListadoAlfabeticoDeNombresDeDocumentos(listadoDocumentosAlfabetico);
   std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > setDocumentosPorTamanyo(Documento::ordenadorDeDocumentosPorTamanyo);
-  //indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico);
+  indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico);
 
 }
 
 void Indexador::generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico) {
-  std::cout << "Indexador::indexarNombresDeDocumentos():" << std::endl;
+  std::cout << "Ejecutando Indexador::generarListadoAlfabeticoDeNombresDeDocumentos()." << std::endl;
   std::cout << "***INICIO DE GENERACIÓN DE LISTADO DE DOCUMENTOS." << std::endl;
   struct dirent **vector;
   // http://linux.die.net/man/3/scandir
@@ -68,4 +69,15 @@ void Indexador::generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documen
 
 int Indexador::filtro(const struct dirent *pDirent) {
   return (strcmp(pDirent->d_name, ".") && strcmp(pDirent->d_name, ".."));
+}
+
+void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico) {
+  std::cout << "Ejecutando Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo()." << std::endl;
+  IndexadorNombresDocumento indexadorNombresDocumento;
+  std::list< Documento >::iterator iterador = listadoDocumentosAlfabetico.begin();
+  while (iterador != listadoDocumentosAlfabetico.end()) {
+    setDocumentosPorTamanyo.insert(*iterador);
+    indexadorNombresDocumento.indexar(*iterador);
+    listadoDocumentosAlfabetico.erase(iterador++);
+  }
 }
