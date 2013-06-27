@@ -11,17 +11,26 @@
 #include <fstream>
 #include <string>
 #include "./Documento.h"
+#include "./FCP.h"
+#include "./ManejadorOffset.h"
 
 class IndexadorNombresDocumento {
   public:
+    // Ruta al directorio donde se crearán los archivos.
     const std::string archivosSalidaRuta;
-    const unsigned int tamanyoBloque;
-    std::fstream archivoHandler;
 
-    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const unsigned int tamanyoBloque);
+    // Nombre del indice, para ponérselo a los archivos que componen al índice.
+    const std::string indiceNombre;
+    const unsigned int tamanyoBloque;
+    FCP fcp;
+    ManejadorOffset offsetManejador;
+
+    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int tamanyoBloque);
+
     virtual ~IndexadorNombresDocumento();
 
     void indexar(const Documento &documento);
+
     void close();
 };
 

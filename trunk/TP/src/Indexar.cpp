@@ -24,13 +24,14 @@ int main(int argc, char *argv[]) {
   } else {
     std::cout << "CANTIDAD DE ARGUMENTOS CORRECTA." << std::endl;
   }
-  std::string repositorioNombre(argv[1]);
-  std::cout << "El nombre del repositorio es: " << repositorioNombre << std::endl;
+  std::string indiceNombre(argv[1]);
+  std::cout << "El nombre del repositorio es: " << indiceNombre << std::endl;
   std::string repositorioRuta(argv[2]);
   std::cout << "La ruta del repositorio es: " << repositorioRuta << std::endl;
-  Indexador indexador(repositorioNombre, repositorioRuta);
+  Indexador indexador(indiceNombre, repositorioRuta);
   {
-    indexador.indexar(std::string("./"));
+    std::string indiceRuta("./");
+    indexador.indexar(indiceRuta);
   }
   retornoValor = RESULTADO_OK;
   std::cout << "FÍN DE PROGRAMA CONTROLADO, ECHO $? = " << retornoValor << std::endl;
