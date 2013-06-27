@@ -21,10 +21,11 @@ class Indexador {
     Indexador(const std::string &repositorioNombre, const std::string &repositorioRuta);
     virtual ~Indexador();
 
-    void indexar();
+    void indexar(const std::string &archivosSalidaRuta);
     void generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico);
     static int filtro(const struct dirent *pDirent);
-    void indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico);
+    void indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico, const std::string &archivosSalidaRuta);
+    void indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta);
 };
 
 #endif /* INDEXADOR_H_ */

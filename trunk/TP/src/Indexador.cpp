@@ -27,12 +27,14 @@ Indexador::~Indexador() {
   std::cout << "Ejecutando Indexador::~Indexador()." << std::endl;
 }
 
-void Indexador::indexar() {
+// Este es el método principal.
+void Indexador::indexar(const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexar()." << std::endl;
   std::list< Documento > listadoDocumentosAlfabetico;
   generarListadoAlfabeticoDeNombresDeDocumentos(listadoDocumentosAlfabetico);
   std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > setDocumentosPorTamanyo(Documento::ordenadorDeDocumentosPorTamanyo);
-  indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico);
+  indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico, archivosSalidaRuta);
+  indexarTerminos(setDocumentosPorTamanyo, archivosSalidaRuta);
 }
 
 void Indexador::generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico) {
@@ -70,15 +72,19 @@ int Indexador::filtro(const struct dirent *pDirent) {
   return (strcmp(pDirent->d_name, ".") && strcmp(pDirent->d_name, ".."));
 }
 
-void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico) {
+void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico, const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo()." << std::endl;
   unsigned int tamanyoBloque = listadoDocumentosAlfabetico.size();
   std::list< Documento >::iterator iterador = listadoDocumentosAlfabetico.begin();
-  IndexadorNombresDocumento indexadorNombresDocumento(std::string("./"), tamanyoBloque);
+  IndexadorNombresDocumento indexadorNombresDocumento(archivosSalidaRuta, tamanyoBloque);
   while (iterador != listadoDocumentosAlfabetico.end()) {
     setDocumentosPorTamanyo.insert(*iterador);
     indexadorNombresDocumento.indexar(*iterador);
     listadoDocumentosAlfabetico.erase(iterador++);
   }
   indexadorNombresDocumento.close();
+}
+
+void Indexador::indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta) {
+  // TODO (): El más importante.
 }
