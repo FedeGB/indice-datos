@@ -8,6 +8,7 @@
 #include "./Documento.h"
 #include "./Indexador.h"
 #include "./IndexadorNombresDocumento.h"
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -18,8 +19,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-Indexador::Indexador(const std::string &repositorioNombre, const std::string &repositorioRuta)
-    : repositorioNombre(repositorioNombre), repositorioRuta(repositorioRuta) {
+Indexador::Indexador(const std::string &indiceNombre, const std::string &repositorioRuta)
+    : indiceNombre(indiceNombre), repositorioRuta(repositorioRuta) {
   std::cout << "Ejecutando Indexador::Indexador()." << std::endl;
 }
 
@@ -74,9 +75,22 @@ int Indexador::filtro(const struct dirent *pDirent) {
 
 void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico, const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo()." << std::endl;
-  unsigned int tamanyoBloque = listadoDocumentosAlfabetico.size();
+  unsigned int cantidadDocumentos = listadoDocumentosAlfabetico.size();
+  std::cout << "  La cantidad de documentos es: " << cantidadDocumentos << std::endl;
+  unsigned int bloqueTamanyo;
+  if (cantidadDocumentos <= 1000) {
+    bloqueTamanyo = 100;
+  } else {
+    double auxiliar = ::log10(cantidadDocumentos);
+    auxiliar /= 3;
+    auxiliar -= 1;
+    auxiliar *= 900;
+    auxiliar += 100;
+    bloqueTamanyo = ::floor(auxiliar);
+  }
+  std::cout << "  El tamaño de bloque es: " << bloqueTamanyo << std::endl;
   std::list< Documento >::iterator iterador = listadoDocumentosAlfabetico.begin();
-  IndexadorNombresDocumento indexadorNombresDocumento(archivosSalidaRuta, tamanyoBloque);
+  IndexadorNombresDocumento indexadorNombresDocumento(archivosSalidaRuta, indiceNombre, bloqueTamanyo);
   while (iterador != listadoDocumentosAlfabetico.end()) {
     setDocumentosPorTamanyo.insert(*iterador);
     indexadorNombresDocumento.indexar(*iterador);
@@ -86,5 +100,6 @@ void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento
 }
 
 void Indexador::indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta) {
+  std::cout << "Ejecutando Indexador::indexarTerminos()." << std::endl;
   // TODO (): El más importante.
 }

@@ -17,6 +17,7 @@ class Documento {
     int serial;
 
     Documento(const std::string &nombre, const unsigned int tamanyo, const int serial);
+
     virtual ~Documento();
 
     static bool ordenadorDeDocumentosPorTamanyo(const Documento &primero, const Documento &segundo);
