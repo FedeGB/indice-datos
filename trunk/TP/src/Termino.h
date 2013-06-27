@@ -22,7 +22,7 @@ class Termino {
 	public:
 		std::string termino;
 		unsigned long int frecuenciaGlobal;
-		std::set< Localizacion, bool (*)(const Localizacion &primer, const Localizacion &segundo) > localizaciones(Ordenamiento::ordenarPorNumeroDoc);
+		std::set< Localizacion, bool (*)(const Localizacion &primer, const Localizacion &segundo) > localizaciones;
 		
 		Termino(const std::string &str);
 		
@@ -36,7 +36,7 @@ class Termino {
 
 class Localizacion {
 	public:
-		std::set< int, bool (*)(const int primer, const int segundo) > posiciones(Ordenamiento::ordenarNumericamente);
+		std::set< int, bool (*)(const int primer, const int segundo) > posiciones;
 		int numeroDoc;
 		int frecuenciaLocal;
 		

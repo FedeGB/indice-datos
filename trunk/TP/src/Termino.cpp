@@ -9,7 +9,7 @@ Termino::Termino(const std::string &str): termino(str) {
 
 Termino::~Termino() { }
 
-void Termino::aumentarFrecuencia() {
+void Termino::aumentarFrecuencia(): localizaciones(Ordenamiento::ordenarPorNumeroDoc) {
 	frecuenciaGlobal++;
 }
 
@@ -32,7 +32,7 @@ void Localizacion::unirLocalizacion(Localizacion &local) {
 }
 
 
-Localizacion::Localizacion(int numeroDoc): numeroDoc(numeroDoc) {
+Localizacion::Localizacion(int numeroDoc): numeroDoc(numeroDoc),  posiciones(Ordenamiento::ordenarNumericamente) {
 	frecuenciaLocal = 1;
 }
 
