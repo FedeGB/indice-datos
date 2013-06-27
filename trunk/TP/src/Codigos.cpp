@@ -18,17 +18,12 @@
 CDelta::CDelta(unsigned long int numero) {
   std::cout << "Ejecutando CDelta::CDelta()." << std::endl;
   uchar delta[MAX];
-  std::cout << "ACA0." << std::endl;
   bits = base_code(numero, gamma_code, delta);
-  std::cout << "ACA1." << std::endl;
   bytes = (bits / 8);
-  std::cout << "ACA2." << std::endl;
   if ((bits % 8) != 0) {
     bytes += 1;
   }
-  std::cout << "ACA3." << std::endl;
   codigo = new uchar[bytes];
-  std::cout << "ACA4." << std::endl;
   escribirBinario(codigo, delta, bits);
 }
 
@@ -143,14 +138,15 @@ int base_code(unsigned long int number, int func(unsigned long int, uchar*), uch
   uchar binary[bits + 1];
   binary_code(bin, bits, binary);
   int x, i, pre;
-  x = i = pre = 0;
+  i = pre = 0;
 
   while (!vec[i] == '\0')
     i++;
   pre = i;
+  x = bits -1;
   for (int z = i; z < (q + bits + 1); z++) {
     vec[z] = binary[x];
-    x++;
+    x--;
   }
   vec[pre + bits] = '\0';
   return (pre + bits);
@@ -171,13 +167,16 @@ unsigned long int unary_decode(uchar* unary) {
   return i;
 }
 
-unsigned long int binary_decode(uchar* binary) {
-  int x = 0;
+unsigned long int binary_decode(uchar* binary, size_t len) {
   unsigned long int number = 0;
-
-  while (binary[x] != '\0') {
-    if (binary[x] == '1') number += (int) pow(2, (double) x);
-    x++;
+  int x = (int) len-1;
+  int y = 0;
+  while (x >= 0) {
+    if (binary[x] == '1') {
+		number += (unsigned long int) pow(2, (double) y);
+	}
+    y++;
+    x--;
   }
   return number;
 }
@@ -204,9 +203,10 @@ unsigned long int gamma_decode(uchar* gamma, int* usados) {
     post[i] = gamma[t];
     i++;
   }
-  post[i++] = '\0';
+  i++;
+  post[i] = '\0';
   *usados = y;
-  return (unsigned long int) pow(2, (double) q) + binary_decode(post);
+  return (unsigned long int) pow(2, (double) q) + binary_decode(post, q);
 }
 
 unsigned long int delta_decode(uchar* delta, int* usados) {
@@ -218,11 +218,11 @@ unsigned long int delta_decode(uchar* delta, int* usados) {
 
   int y = 0;
   int t;
-  for (t = w; t < w + q - 1; t++) {
+  for (t = w; t < w + q; t++) {
     post[y] = delta[t];
     y++;
   }
   post[y++] = '\0';
   *usados = t++;
-  return (unsigned long int) pow(2, (double) q) + binary_decode(post);
+  return (unsigned long int) pow(2, (double) q) + binary_decode(post, q);
 }
