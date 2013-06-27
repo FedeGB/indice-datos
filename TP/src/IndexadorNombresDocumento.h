@@ -25,8 +25,9 @@ class IndexadorNombresDocumento {
     unsigned int contadorIndexados;
     FCP fcp;
     ManejadorOffset offsetManejador;
+    const bool soloHayUnBloque;
 
-    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo);
+    IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo, const bool soloHayUnBloque);
 
     virtual ~IndexadorNombresDocumento();
 

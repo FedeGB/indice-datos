@@ -41,6 +41,8 @@ class FCP {
     void hallarIgualesYDistintos(const std::string &cadenaActual, unsigned long int &iguales, unsigned long int &distintos);
 
     void agregarOffsets(const unsigned int diferenciasBits, const unsigned int caracteresBits);
+
+    void escribirBloqueTamanyo(const unsigned int bloqueTamanyo, const bool soloHayUnBloque);
 };
 
 #endif /* FCP_H_ */
