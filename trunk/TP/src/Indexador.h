@@ -8,7 +8,9 @@
  *      Author: GRUPO 19
  */
 
+#include <list>
 #include <string>
+#include "./Documento.h"
 
 class Indexador {
   public:
@@ -19,7 +21,7 @@ class Indexador {
     virtual ~Indexador();
 
     void indexar();
-    void indexarNombresDeDocumentos();
+    void generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoArchivosAlfabetico);
     static int filtro(const struct dirent *pDirent);
 };
 
