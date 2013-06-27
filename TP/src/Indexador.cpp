@@ -33,7 +33,6 @@ void Indexador::indexar() {
   generarListadoAlfabeticoDeNombresDeDocumentos(listadoDocumentosAlfabetico);
   std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > setDocumentosPorTamanyo(Documento::ordenadorDeDocumentosPorTamanyo);
   indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico);
-
 }
 
 void Indexador::generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico) {
@@ -73,11 +72,13 @@ int Indexador::filtro(const struct dirent *pDirent) {
 
 void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico) {
   std::cout << "Ejecutando Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo()." << std::endl;
-  IndexadorNombresDocumento indexadorNombresDocumento;
+  unsigned int tamanyoBloque = listadoDocumentosAlfabetico.size();
   std::list< Documento >::iterator iterador = listadoDocumentosAlfabetico.begin();
+  IndexadorNombresDocumento indexadorNombresDocumento(std::string("./"), tamanyoBloque);
   while (iterador != listadoDocumentosAlfabetico.end()) {
     setDocumentosPorTamanyo.insert(*iterador);
     indexadorNombresDocumento.indexar(*iterador);
     listadoDocumentosAlfabetico.erase(iterador++);
   }
+  indexadorNombresDocumento.close();
 }
