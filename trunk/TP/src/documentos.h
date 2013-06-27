@@ -10,15 +10,16 @@
 
 #include <string>
 
-class Documentos {
+class Documento {
 	public:
-		char* path;
-		char* name;
+		std::string path;
+		std::string name;
 		int size;
-		static int serial;
+		int serial;
 		
-		Documentos(char* path, char* name, int size);
-		virtual ~Documentos();
+		Documento(const std::string &path, const std::string &name, int size);
+		void setSerial(int num);
+		virtual ~Documento();
 	
 };
 
