@@ -8,11 +8,12 @@
 #include "./ManejadorArchivo.h"
 #include <cstring>
 #include <fstream>
+#include "./Codigos.h"
 
 #include <iostream>
 
 ManejadorArchivo::ManejadorArchivo(const std::string &rutaConNombre)
-    : rutaConNombre(rutaConNombre), archivoHandler(rutaConNombre.c_str(), std::fstream::out | std::fstream::in), pBuffer(), bitsEnBuffer(0) {
+    : rutaConNombre(rutaConNombre), archivoHandler(rutaConNombre.c_str(), std::fstream::out | std::fstream::in), pBuffer(), bitsEnBuffer(0), bufferLectura(0) {
   //std::cout << "Ejecutando ManejadorArchivo::ManejadorArchivo()." << std::endl;
   std::cout << "Creado el archivo: " << rutaConNombre << std::endl;
 }
@@ -21,13 +22,13 @@ ManejadorArchivo::~ManejadorArchivo() {
   //std::cout << "Ejecutando ManejadorArchivo::~ManejadorArchivo()." << std::endl;
 }
 
-void ManejadorArchivo::escribirBinario(const unsigned char * const pDatos, const int cantidadBits) {
+void ManejadorArchivo::escribirBinario(const void * const pDatos, const int cantidadBits) {
   //std::cout << "Ejecutando ManejadorArchivo::escribir()." << std::endl;
   //std::cout << "Escribir binario: \"" << (int) *datos << "\" de largo: " << cantidadBits << std::endl;
   if (cantidadBits == 0) {
     throw 666;
   }
-  const unsigned char *pDatosAux = pDatos;
+  const unsigned char *pDatosAux = (unsigned char *) pDatos;
   int cantidadBitsPorRecibir = cantidadBits;
   if (bitsEnBuffer == 0) {
     // Si el buffer está vacío.
@@ -170,12 +171,40 @@ void ManejadorArchivo::posicionarse(const unsigned long int offsetBytes, const u
   }
 }
 
-void ManejadorArchivo::leerBinario(char * const pDatos, const unsigned int largo) {
+bool ManejadorArchivo::leerBinario(unsigned long int * const numeroLeido) {
+  //std::cout << "Ejecutando ManejadorArchivo::leerBinario()." << std::endl;
+  // TODO (): Importante para las consultas.
+  /*if ((largo != sizeof(unsigned long int)) != 0) {
+   throw 666;
+   }*/
+  if ((bitsEnBuffer == 0) && (archivoHandler.eof() == false)) {
+    archivoHandler.read((char *) &bufferLectura, sizeof(unsigned long int));
+  }
+  // chequear si son todos 1's.
+  if () {
+    return false;
+  } else {
+    int nBytes = bitsEnBuffer / 8;
+    int usados = DDelta::decodificar((unsigned char *) &bufferLectura, nBytes, numeroLeido);
+    bufferLectura <<= usados;
+    bitsEnBuffer -= usados;
+    if (bitsEnBuffer <= ((sizeof(unsigned long int) - 1) * 8)) {
 
+      char auxiliar2;
+      while (((bitsEnBuffer + 8) <= (sizeof(unsigned long int) * 8)) && (archivoHandler.eof() == false)) {
+        bufferLectura <<= 8;
+        archivoHandler.read(&auxiliar2, 1);
+        bufferLectura |= auxiliar2;
+        bitsEnBuffer += 8;
+
+      }
+
+    }
+  }
 }
 
 void ManejadorArchivo::close() {
-  //std::cout << "Ejecutando ManejadorArchivo::close()." << std::endl;
+//std::cout << "Ejecutando ManejadorArchivo::close()." << std::endl;
   if (bitsEnBuffer != 0) {
     // Si me quedan bits en el buffer para grabar...
     // Completo con unos y los grabo.
