@@ -31,25 +31,43 @@ void ManejadorArchivo::escribirBinario(const unsigned char * const datos, const 
   if (bitsEnBuffer == 0) {
     // Si el buffer está vacío.
     while (cantidadBitsPorRecibir >= 8) {
-
-      *buffer = 0x00;
-
+      archivoHandler << (*pDatos);
+      ++pDatos;
       cantidadBitsPorRecibir -= 8;
     }
   } else {
     // Si el buffer no está vacío.
     while (cantidadBitsPorRecibir >= 8) {
-
-      *buffer = 0x00;
-
+      unsigned char auxiliar = (*pDatos);
+      auxiliar >>= bitsEnBuffer;
+      // Una máscara 00000001.
+      unsigned char mascara = 0x01;
+      for (int contador = (8 - bitsEnBuffer - 1); contador > 0; --contador) {
+        mascara |= (mascara << 1);
+      }
+      (*buffer) |= (mascara & auxiliar);
+      archivoHandler << (*buffer);
+      auxiliar = (*pDatos);
+      auxiliar <<= (8 - bitsEnBuffer);
+      mascara = ~mascara;
+      (*buffer) |= (mascara & auxiliar);
+      ++pDatos;
       cantidadBitsPorRecibir -= 8;
     }
   }
   int cantidadBitsPorEscribir = cantidadBitsPorRecibir + bitsEnBuffer;
   if (cantidadBitsPorEscribir >= 8) {
     // Escribo 8 bits más y termino de acomodar (obviamente el buffer no está vacío).
-
-
+    unsigned char auxiliar = (*pDatos);
+    auxiliar >>= bitsEnBuffer;
+    // Una máscara 00000001.
+    unsigned char mascara = 0x01;
+    for (int contador = (8 - bitsEnBuffer - 1); contador > 0; --contador) {
+      mascara |= (mascara << 1);
+    }
+    (*buffer) |= (mascara & auxiliar);
+    archivoHandler << (*buffer);
+    *buffer = 0x00;
     cantidadBitsPorEscribir -= 8;
     if (cantidadBitsPorEscribir > 0) {
       // Termino de acomodar.
@@ -58,12 +76,10 @@ void ManejadorArchivo::escribirBinario(const unsigned char * const datos, const 
       auxiliar <<= (8 - bitsEnBuffer);
       // Una máscara 10000000.
       unsigned char mascara = 0x80;
-      for (int contador = cantidadBitsPorRecibir; contador > 0; --contador) {
+      for (int contador = (cantidadBitsPorEscribir - 1); contador > 0; --contador) {
         mascara |= (mascara >> 1);
       }
       (*buffer) |= (mascara & auxiliar);
-
-
       bitsEnBuffer = cantidadBitsPorEscribir;
     } else {
       *buffer = 0x00;
@@ -83,7 +99,7 @@ void ManejadorArchivo::escribirBinario(const unsigned char * const datos, const 
         // Una máscara 10000000.
         unsigned char mascara = 0x80;
         mascara <<= (8 - bitsEnBuffer);
-        for (int contador = cantidadBitsPorRecibir; contador > 0; --contador) {
+        for (int contador = (cantidadBitsPorRecibir - 1); contador > 0; --contador) {
           mascara |= (mascara >> 1);
         }
         (*buffer) |= (mascara & auxiliar);
