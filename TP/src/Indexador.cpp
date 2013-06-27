@@ -12,6 +12,7 @@
 #include <cstring>
 #include <iostream>
 #include <list>
+#include <set>
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -27,14 +28,15 @@ Indexador::~Indexador() {
 
 void Indexador::indexar() {
   std::cout << "Ejecutando Indexador::indexar()." << std::endl;
-  indexarNombresDeDocumentos();
+  std::list< Documento > listadoDocumentosAlfabetico;
+  generarListadoAlfabeticoDeNombresDeDocumentos(listadoDocumentosAlfabetico);
+  std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > setDocumentosPorTamanyo(Documento::ordenadorDeDocumentosPorTamanyo);
+  //indexarNombresDeDocumentosYOrdenarPorTamanyo(setDocumentosPorTamanyo, listadoDocumentosAlfabetico);
 
 }
 
-void Indexador::indexarNombresDeDocumentos() {
+void Indexador::generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico) {
   std::cout << "Indexador::indexarNombresDeDocumentos():" << std::endl;
-  std::list< Documento > listadoArchivosAlfabetico;
-
   std::cout << "***INICIO DE GENERACIÓN DE LISTADO DE DOCUMENTOS." << std::endl;
   struct dirent **vector;
   // http://linux.die.net/man/3/scandir
@@ -56,7 +58,7 @@ void Indexador::indexarNombresDeDocumentos() {
       }
       off_t tamanyo = info.st_size;
       std::cout << "  Archivo indexado: " << nombre << std::endl;
-      listadoArchivosAlfabetico.push_back(Documento(nombre, tamanyo, contador));
+      listadoDocumentosAlfabetico.push_back(Documento(nombre, tamanyo, contador));
       ::free(vector[contador]);
     }
     ::free(vector);
