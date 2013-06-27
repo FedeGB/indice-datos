@@ -29,6 +29,19 @@ class CDelta {
     virtual ~CDelta();
 };
 
+class DDelta {
+	private:
+		static void leerBinario(uchar* bytes, size_t nBytes, uchar* buffer);
+		DDelta();
+	
+	public:
+		// Decodifica los bits de un array de bytes
+		// Post: Devuelve la cantidad de bits utilizados
+		static int decodificar(uchar* bytes, size_t nBytes, long int* numero);		
+		
+		virtual ~DDelta();
+};
+
 /****************************
  * Funciones codificacion
  *****************************/
@@ -63,9 +76,9 @@ long int binary_decode(uchar* binary);
 
 // Decodifica un codigo gamma, y se le pasa un puntero a un entero para saber
 // cuantos uchar decodifico del array
-long int gamma_decode(uchar* gamma, int* done);
+long int gamma_decode(uchar* gamma, int* usados);
 
 // Decodifica un codigo delta
-long int delta_decode(uchar* delta);
+long int delta_decode(uchar* delta, int* usados);
 
 #endif
