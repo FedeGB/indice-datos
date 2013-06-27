@@ -8,6 +8,8 @@
 #include "./Documento.h"
 #include "./Indexador.h"
 #include "./IndexadorNombresDocumento.h"
+#include "./Termino.h"
+#include "./Parser.h"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -107,4 +109,35 @@ void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento
 void Indexador::indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexarTerminos()." << std::endl;
   // TODO (Imprescindible): El más importante.
+  std::set< Termino, bool (*)(const Termino &primero, const Termino &segundo) > listadoTerminos(Termino::ordenarAlfabeticamente);
+  std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) >::iterator iterador = setDocumentosPorTamanyo.begin();
+  Parser actual_parseando;
+  std::string termino_actual;
+  Termino termino_procesando;
+  Localizacion local_actual;
+  int pos_doc = 1;
+  int numeroDoc = 0;
+  std::pair< set< Termino >::iterator, bool > retorno;
+  while(iterador != setDocumentosPorTamanyo.end()) {
+	  actual_parseando(archivosSalidaRuta+(*iterador).nombre);
+	  pos_doc = 1;
+	  while(actual_parseando.dameUnTermino(termino_actual) == 0) {
+		  termino_procesando(termino_actual);
+		  local_actual(numeroDoc);
+		  local_actual.agregarPosicion(pos_doc);
+		  termino_procesando.agregarLocalizacion(local_actual);
+		  pos_doc++;
+		  retorno = listadoTermino.insert(termino_procesando);
+		  if(!retorno.second) {
+			  retorno->first.frecuenciaGlobal += termino_procesando.frecuenciaGlobal;
+			  std::set< Localizacion >::iterator iterador = termino_procesando.localizaciones.begin();
+			  while(iterador != termino_procesando.localizaciones.end()) {
+				  retorno->first.agregarLocalizacion(*iterador);
+				  iterador++;
+			  }
+		   }
+	   }
+	   numeroDoc++;
+	   iterador++;
+   }
 }
