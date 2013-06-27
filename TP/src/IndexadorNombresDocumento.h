@@ -8,7 +8,6 @@
  *      Author: GRUPO 19
  */
 
-#include <fstream>
 #include <string>
 #include "./Documento.h"
 #include "./FCP.h"

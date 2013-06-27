@@ -14,7 +14,7 @@
 class ManejadorArchivo {
   public:
     const std::string rutaConNombre;
-    std::ofstream archivoHandler;
+    std::fstream archivoHandler;
     unsigned char buffer[1];
     unsigned char bitsEnBuffer;
 

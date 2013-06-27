@@ -12,7 +12,7 @@
 #include <iostream>
 
 ManejadorArchivo::ManejadorArchivo(const std::string &rutaConNombre)
-    : rutaConNombre(rutaConNombre), archivoHandler(rutaConNombre.c_str(), std::ofstream::out), buffer(), bitsEnBuffer(0) {
+    : rutaConNombre(rutaConNombre), archivoHandler(rutaConNombre.c_str(), std::fstream::out | std::fstream::in), buffer(), bitsEnBuffer(0) {
   //std::cout << "Ejecutando ManejadorArchivo::ManejadorArchivo()." << std::endl;
   std::cout << "Creado el archivo: " << rutaConNombre << std::endl;
 }

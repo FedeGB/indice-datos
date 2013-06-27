@@ -16,7 +16,10 @@
 // Clase CDelta
 
 CDelta::CDelta(unsigned long int numero) {
-  std::cout << "Ejecutando CDelta::CDelta()." << std::endl;
+  //std::cout << "Ejecutando CDelta::CDelta()." << std::endl;
+  if (numero == 0) {
+    throw 666;
+  }
   uchar delta[MAX];
   bits = base_code(numero, gamma_code, delta);
   bytes = (bits / 8);
@@ -25,6 +28,8 @@ CDelta::CDelta(unsigned long int numero) {
   }
   codigo = new uchar[bytes];
   escribirBinario(codigo, delta, bits);
+
+  //std::cout << "CDelta::CDelta(" << numero << ") tiene largo = " << bits << std::endl;
 }
 
 CDelta::~CDelta() {
