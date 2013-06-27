@@ -26,6 +26,8 @@ class ManejadorOffset {
     virtual ~ManejadorOffset();
 
     void close();
+
+    void escribirOffsetsNombresDocumento(const unsigned int offsetBytesDiferencias, const unsigned int offsetBitsDiferencias, const unsigned int offsetBytesCaracteres);
 };
 
 #endif /* MANEJADOROFFSET_H_ */

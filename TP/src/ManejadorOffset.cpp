@@ -23,3 +23,7 @@ void ManejadorOffset::close() {
   std::cout << "Ejecutando ManejadorOffset::~close()." << std::endl;
   // TODO
 }
+
+void ManejadorOffset::escribirOffsetsNombresDocumento(const unsigned int offsetBytesDiferencias, const unsigned int offsetBitsDiferencias, const unsigned int offsetBytesCaracteres) {
+  // TODO
+}
