@@ -12,9 +12,10 @@
 
 #include <iostream>
 
-IndexadorNombresDocumento::IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo)
-    : archivosSalidaRuta(archivosSalidaRuta), indiceNombre(indiceNombre), bloqueTamanyo(bloqueTamanyo), contadorIndexados(0), fcp(archivosSalidaRuta, indiceNombre, bloqueTamanyo), offsetManejador(archivosSalidaRuta, indiceNombre) {
+IndexadorNombresDocumento::IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo, const bool soloHayUnBloque)
+    : archivosSalidaRuta(archivosSalidaRuta), indiceNombre(indiceNombre), bloqueTamanyo(bloqueTamanyo), contadorIndexados(0), fcp(archivosSalidaRuta, indiceNombre, bloqueTamanyo), offsetManejador(archivosSalidaRuta, indiceNombre), soloHayUnBloque(soloHayUnBloque) {
   std::cout << "Ejecutando IndexadorNombresDocumento::IndexadorNombresDocumento()." << std::endl;
+  fcp.escribirBloqueTamanyo(bloqueTamanyo, soloHayUnBloque);
 }
 
 IndexadorNombresDocumento::~IndexadorNombresDocumento() {
@@ -32,6 +33,7 @@ void IndexadorNombresDocumento::indexar(const Documento &documento) {
     fcp.offsetBytesCaracteres = fcp.offsetBitsCaracteres = 0;
     // Fuerzo un "caracteres iguales = 0" para la proxima cadena a escribir.
     fcp.cadenaAnterior = "";
+    contadorIndexados = 0;
   }
   fcp.escribirSinCodificar(documento.nombre);
   ++contadorIndexados;

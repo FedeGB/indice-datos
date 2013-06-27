@@ -14,15 +14,15 @@
 
 ManejadorOffset::ManejadorOffset(const std::string &ruta, const std::string &indiceNombre)
     : ruta(ruta), indiceNombre(indiceNombre), manejadorArchivo(ruta + indiceNombre + "DocNomOff.bin") {
-  std::cout << "Ejecutando ManejadorOffset::ManejadorOffset()." << std::endl;
+  //std::cout << "Ejecutando ManejadorOffset::ManejadorOffset()." << std::endl;
 }
 
 ManejadorOffset::~ManejadorOffset() {
-  std::cout << "Ejecutando ManejadorOffset::~ManejadorOffset()." << std::endl;
+  //std::cout << "Ejecutando ManejadorOffset::~ManejadorOffset()." << std::endl;
 }
 
 void ManejadorOffset::close() {
-  std::cout << "Ejecutando ManejadorOffset::~close()." << std::endl;
+  //std::cout << "Ejecutando ManejadorOffset::close()." << std::endl;
   manejadorArchivo.close();
 }
 

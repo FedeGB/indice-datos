@@ -24,17 +24,17 @@ int main(/*int argc, char *argv[]*/) {
    } else {
    std::cout << "CANTIDAD DE ARGUMENTOS CORRECTA." << std::endl;
    }*/
-  char *argv[3];
-  argv[0] = "PRUEBA";
-  argv[1] = "FOOBAR";
-  argv[2] = "/home/kubuntu/Documents/0Indice/test/";
-
-  std::string indiceNombre(argv[1]);
-  std::cout << "El nombre del repositorio es: " << indiceNombre << std::endl;
-  std::string repositorioRuta(argv[2]);
-  std::cout << "La ruta del repositorio es: " << repositorioRuta << std::endl;
-  Indexador indexador(indiceNombre, repositorioRuta);
   {
+    char *argv[3];
+    argv[0] = "PRUEBA";
+    argv[1] = "FOOBAR";
+    argv[2] = "/home/kubuntu/Documents/0Indice/test/";
+
+    std::string indiceNombre(argv[1]);
+    std::cout << "El nombre del repositorio es: " << indiceNombre << std::endl;
+    std::string repositorioRuta(argv[2]);
+    std::cout << "La ruta del repositorio es: " << repositorioRuta << std::endl;
+    Indexador indexador(indiceNombre, repositorioRuta);
     std::string indiceRuta("./");
     indexador.indexar(indiceRuta);
   }

@@ -89,8 +89,13 @@ void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento
     bloqueTamanyo = ::floor(auxiliar);
   }
   std::cout << "  El tamaño de bloque es: " << bloqueTamanyo << std::endl;
+  bool soloHayUnBloque = false;
+  if (cantidadDocumentos <= 100) {
+    soloHayUnBloque = true;
+    std::cout << "  Solo hay un bloque." << std::endl;
+  }
   std::list< Documento >::iterator iterador = listadoDocumentosAlfabetico.begin();
-  IndexadorNombresDocumento indexadorNombresDocumento(archivosSalidaRuta, indiceNombre, bloqueTamanyo);
+  IndexadorNombresDocumento indexadorNombresDocumento(archivosSalidaRuta, indiceNombre, bloqueTamanyo, soloHayUnBloque);
   while (iterador != listadoDocumentosAlfabetico.end()) {
     setDocumentosPorTamanyo.insert(*iterador);
     indexadorNombresDocumento.indexar(*iterador);
