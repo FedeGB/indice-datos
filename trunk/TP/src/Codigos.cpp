@@ -11,16 +11,24 @@
 #include <cstring>
 #define MAX 50
 
+#include <iostream>
+
 // Clase CDelta
 
 CDelta::CDelta(unsigned long int numero) {
+  std::cout << "Ejecutando CDelta::CDelta()." << std::endl;
   uchar delta[MAX];
+  std::cout << "ACA0." << std::endl;
   bits = base_code(numero, gamma_code, delta);
+  std::cout << "ACA1." << std::endl;
   bytes = (bits / 8);
+  std::cout << "ACA2." << std::endl;
   if ((bits % 8) != 0) {
     bytes += 1;
   }
+  std::cout << "ACA3." << std::endl;
   codigo = new uchar[bytes];
+  std::cout << "ACA4." << std::endl;
   escribirBinario(codigo, delta, bits);
 }
 
