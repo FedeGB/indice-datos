@@ -28,20 +28,22 @@ void FCP::close() {
 
 void FCP::escribirSinCodificar(const std::string &cadenaActual) {
   std::cout << "Ejecutando FCP::indexar()." << std::endl;
-  unsigned int iguales = 0;
-  unsigned int distintos = 0;
+  unsigned long int iguales = 0;
+  unsigned long int distintos = 0;
   hallarIgualesYDistintos(cadenaActual, iguales, distintos);
   cadenaAnterior = cadenaActual;
   std::string diferencia(cadenaActual.substr(iguales, std::string::npos));
   manejadorArchivoCaracteres.escribirSinCodificar(diferencia);
+  std::cout << "Antes de crear CDelta." << std::endl;
   CDelta igualesDelta(iguales);
+  std::cout << "Después de crear CDelta." << std::endl;
   CDelta distintosDelta(distintos);
   manejadorArchivoDiferencias.escribirBinario(igualesDelta.codigo, igualesDelta.bits);
   manejadorArchivoDiferencias.escribirBinario(distintosDelta.codigo, distintosDelta.bits);
   agregarOffsets(igualesDelta.bits + distintosDelta.bits, distintos * 8);
 }
 
-void FCP::hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int &iguales, unsigned int &distintos) {
+void FCP::hallarIgualesYDistintos(const std::string &cadenaActual, unsigned long int &iguales, unsigned long int &distintos) {
   std::cout << "Ejecutando FCP::hallarIgualesYDistintos()." << std::endl;
   unsigned int posicion = 0;
   unsigned int actualLargo = cadenaActual.length();
@@ -53,7 +55,7 @@ void FCP::hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int 
   }
   iguales = posicion;
   distintos = actualLargo - iguales;
-  std::cout << "Cadena anterior: " << cadenaAnterior << ", Cadena actual: " << cadenaActual << ", Iguales: " << iguales << ", Distintos: " << distintos << std::endl;
+  std::cout << "Cadena anterior: \"" << cadenaAnterior << "\", Cadena actual: \"" << cadenaActual << "\", Iguales: " << iguales << ", Distintos: " << distintos << std::endl;
 }
 
 void FCP::agregarOffsets(const unsigned int diferenciasBits, const unsigned int caracteresBits) {

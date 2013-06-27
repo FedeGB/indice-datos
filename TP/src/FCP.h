@@ -38,7 +38,7 @@ class FCP {
 
     void escribirSinCodificar(const std::string &cadenaActual);
 
-    void hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int &iguales, unsigned int &distintos);
+    void hallarIgualesYDistintos(const std::string &cadenaActual, unsigned long int &iguales, unsigned long int &distintos);
 
     void agregarOffsets(const unsigned int diferenciasBits, const unsigned int caracteresBits);
 };

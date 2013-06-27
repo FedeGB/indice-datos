@@ -14,16 +14,21 @@
 #include "./Indexador.h"
 #include "./RetornoCodigos.h"
 
-int main(int argc, char *argv[]) {
+int main(/*int argc, char *argv[]*/) {
   int retornoValor = ERROR;
-  if (argc != 3) {
-    std::cout << "ERROR EN LA CANTIDAD DE ARGUMENTOS." << std::endl;
-    retornoValor = ERROR_ARGC;
-    std::cout << "FÍN DE PROGRAMA CONTROLADO, ECHO $? = " << retornoValor << std::endl;
-    return retornoValor;
-  } else {
-    std::cout << "CANTIDAD DE ARGUMENTOS CORRECTA." << std::endl;
-  }
+  /*if (argc != 3) {
+   std::cout << "ERROR EN LA CANTIDAD DE ARGUMENTOS." << std::endl;
+   retornoValor = ERROR_ARGC;
+   std::cout << "FÍN DE PROGRAMA CONTROLADO, ECHO $? = " << retornoValor << std::endl;
+   return retornoValor;
+   } else {
+   std::cout << "CANTIDAD DE ARGUMENTOS CORRECTA." << std::endl;
+   }*/
+  char *argv[3];
+  argv[0] = "PRUEBA";
+  argv[1] = "FOOBAR";
+  argv[2] = "/home/kubuntu/Documents/0Indice/test/";
+
   std::string indiceNombre(argv[1]);
   std::cout << "El nombre del repositorio es: " << indiceNombre << std::endl;
   std::string repositorioRuta(argv[2]);
