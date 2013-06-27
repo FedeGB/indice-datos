@@ -17,11 +17,12 @@ class ManejadorArchivo {
     std::fstream archivoHandler;
     unsigned char pBuffer[1];
     unsigned char bitsEnBuffer;
+    unsigned long int bufferLectura;
 
     ManejadorArchivo(const std::string &rutaConNombre);
     virtual ~ManejadorArchivo();
 
-    void escribirBinario(const unsigned char * const pDatos, const int cantidadBits);
+    void escribirBinario(const void * const pDatos, const int cantidadBits);
 
     void escribirSinCodificar(const std::string &cadena);
 
@@ -29,7 +30,7 @@ class ManejadorArchivo {
 
     void posicionarse(const unsigned long int offsetBytes, const unsigned long int offsetBits);
 
-    void leerBinario(char * const pDatos, const unsigned int largo);
+    bool leerBinario(unsigned long int * const numeroLeido);
 
     void close();
 };
