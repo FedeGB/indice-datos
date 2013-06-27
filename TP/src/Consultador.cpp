@@ -9,6 +9,8 @@ Consultador::Consultador(const std::string &indiceNombre, const std::string &rep
   std::cout << "Ejecutando Consutlador::Consultador()." << std::endl;
 }
 
+Consultador::~Consultador() { }
+
 int Consultador::abrirIndice() {
   std::cout << "Ejecutando Consultador::abrirIndice()." << std::endl;
   return RESULTADO_OK;
