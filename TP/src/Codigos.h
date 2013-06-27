@@ -72,7 +72,7 @@ int gamma_code(unsigned long int number, uchar* gamma);
 unsigned long int unary_decode(uchar* unary);
 
 // Decodifica un codigo binario
-unsigned long int binary_decode(uchar* binary);
+unsigned long int binary_decode(uchar* binary, size_t len);
 
 // Decodifica un codigo gamma, y se le pasa un puntero a un entero para saber
 // cuantos uchar decodifico del array
