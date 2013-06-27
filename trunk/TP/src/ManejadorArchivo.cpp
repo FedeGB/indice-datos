@@ -7,6 +7,7 @@
 
 #include "./ManejadorArchivo.h"
 #include <fstream>
+
 #include <iostream>
 
 ManejadorArchivo::ManejadorArchivo(const std::string &rutaConNombre)
