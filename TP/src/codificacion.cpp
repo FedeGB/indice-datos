@@ -50,6 +50,10 @@ void CDelta::escribirBinario(uchar* binario, uchar* code, size_t bits) {
 	return;
 }
 
+/****************************
+* Funciones codificacion
+*****************************/
+
 int unary_code(long int number, uchar* unary) {
 	int x = number - 1;
 	int p = 0;
@@ -102,4 +106,71 @@ int base_code(long int number, int func(long int,uchar*), uchar* vec) {
 
 int gamma_code(long int number, uchar* gamma) {
 	return base_code(number,unary_code,gamma);
+}
+
+/****************************
+* Funciones decodificacion
+*****************************/
+
+long int unary_decode(uchar* unary) {
+	int i = 0;
+	while(unary[i] != 0)
+		i++;
+	return i;
+}
+
+long int binary_decode(uchar* binary) {
+	int x = 0;
+	int number = 0;
+	
+	while(binary[x] != '\0') {
+		if(binary[x] == '1')
+			number += (int)pow(2,(double)x);
+		x++;
+	}
+	return number;
+}
+
+long int gamma_decode(uchar* gamma, int* done) {
+	int len_max = strlen((char*)gamma);
+	uchar pre[len_max]; // No conozco el maximo a priori pero no es mayor al gamma recibido
+	memset(pre,' ',len_max);
+	int x = 0;
+	while(gamma[x] != '0') {
+		pre[x] = gamma[x];
+		x++;
+	}
+	pre[x] = '0';
+	x++;
+	pre[x] = '\0';
+	int q = unary_decode(pre);
+	q = q-1;
+	uchar post[q+1];
+	memset(post,' ',q+1);
+	int y = x+q;
+	int i = 0;
+	for(int t = x; t < y; t++) {
+		post[i] = gamma[t];
+		i++;
+	}
+	post[i++] = '\0';
+	*done = y;
+	return (int)pow(2,(double)q) + binary_decode(post);
+}
+
+long int delta_decode(uchar* delta) {
+	int* w = malloc(sizeof(int));
+	int q = gamma_decode(delta, w);
+	q = q-1;
+	uchar post[q+1];
+	memset(post,' ',q+1);
+	
+	int y = 0;
+	for(int t = *w; t < (*w)+q-1; t++) {
+		post[y] = delta[t];
+		y++;
+	}
+	post[y++] = '\0';
+	free(w);
+	return (int)pow(2,(double)q) + binary_decode(post);
 }
