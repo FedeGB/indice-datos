@@ -17,7 +17,9 @@ CDelta::CDelta(unsigned long int numero) {
   uchar delta[MAX];
   bits = base_code(numero, gamma_code, delta);
   bytes = (bits / 8);
-  if (bits % 8 != 0) bytes += 1;
+  if ((bits % 8) != 0) {
+    bytes += 1;
+  }
   codigo = new uchar[bytes];
   escribirBinario(codigo, delta, bits);
 }

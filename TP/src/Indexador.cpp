@@ -101,5 +101,5 @@ void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento
 
 void Indexador::indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexarTerminos()." << std::endl;
-  // TODO (): El más importante.
+  // TODO (Imprescindible): El más importante.
 }

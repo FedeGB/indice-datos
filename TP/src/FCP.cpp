@@ -22,7 +22,8 @@ FCP::~FCP() {
 
 void FCP::close() {
   std::cout << "Ejecutando FCP::close()." << std::endl;
-  // TODO
+  manejadorArchivoCaracteres.close();
+  manejadorArchivoDiferencias.close();
 }
 
 void FCP::escribirSinCodificar(const std::string &cadenaActual) {
@@ -35,8 +36,8 @@ void FCP::escribirSinCodificar(const std::string &cadenaActual) {
   manejadorArchivoCaracteres.escribirSinCodificar(diferencia);
   CDelta igualesDelta(iguales);
   CDelta distintosDelta(distintos);
-  manejadorArchivoDiferencias.escribir((char *) igualesDelta.codigo, igualesDelta.bits);
-  manejadorArchivoDiferencias.escribir((char *) distintosDelta.codigo, distintosDelta.bits);
+  manejadorArchivoDiferencias.escribirBinario(igualesDelta.codigo, igualesDelta.bits);
+  manejadorArchivoDiferencias.escribirBinario(distintosDelta.codigo, distintosDelta.bits);
   agregarOffsets(igualesDelta.bits + distintosDelta.bits, distintos * 8);
 }
 
