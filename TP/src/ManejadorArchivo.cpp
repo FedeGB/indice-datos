@@ -20,7 +20,7 @@ ManejadorArchivo::~ManejadorArchivo() {
   std::cout << "Ejecutando ManejadorArchivo::~ManejadorArchivo()." << std::endl;
 }
 
-void escribir(const char * const datos, const int cantidadBits) {
+void ManejadorArchivo::escribir(const char * const datos, const int cantidadBits) {
   std::cout << "Ejecutando ManejadorArchivo::escribir()." << std::endl;
   // TODO (): Método importante.
 }
