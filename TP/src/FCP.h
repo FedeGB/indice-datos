@@ -9,6 +9,7 @@
  */
 
 #include <string>
+#include "./Documento.h"
 #include "./ManejadorArchivo.h"
 
 class FCP {
@@ -32,6 +33,8 @@ class FCP {
     virtual ~FCP();
 
     void close();
+
+    void indexar(const Documento &documento);
 
     unsigned int getOffsetBytesCaracteres();
     unsigned int getOffsetBitsCaracteres();

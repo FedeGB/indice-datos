@@ -22,7 +22,7 @@ class IndexadorNombresDocumento {
     // Nombre del índice, para ponérselo a los archivos que componen al índice.
     const std::string indiceNombre;
     const unsigned int bloqueTamanyo;
-    unsigned int contadorNombres;
+    unsigned int contadorIndexados;
     FCP fcp;
     ManejadorOffset offsetManejador;
 

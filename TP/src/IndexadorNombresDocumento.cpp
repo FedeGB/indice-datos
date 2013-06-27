@@ -6,13 +6,14 @@
  */
 
 #include "./IndexadorNombresDocumento.h"
-#include <iostream>
 #include "./Documento.h"
 #include "./FCP.h"
 #include "./ManejadorOffset.h"
 
+#include <iostream>
+
 IndexadorNombresDocumento::IndexadorNombresDocumento(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo)
-    : archivosSalidaRuta(archivosSalidaRuta), indiceNombre(indiceNombre), bloqueTamanyo(bloqueTamanyo), contadorNombres(0), fcp(archivosSalidaRuta, indiceNombre, bloqueTamanyo), offsetManejador(archivosSalidaRuta, indiceNombre) {
+    : archivosSalidaRuta(archivosSalidaRuta), indiceNombre(indiceNombre), bloqueTamanyo(bloqueTamanyo), contadorIndexados(0), fcp(archivosSalidaRuta, indiceNombre, bloqueTamanyo), offsetManejador(archivosSalidaRuta, indiceNombre) {
   std::cout << "Ejecutando IndexadorNombresDocumento::IndexadorNombresDocumento()." << std::endl;
 }
 
@@ -22,11 +23,11 @@ IndexadorNombresDocumento::~IndexadorNombresDocumento() {
 
 void IndexadorNombresDocumento::indexar(const Documento &documento) {
   std::cout << "Ejecutando IndexadorNombresDocumento::indexar()." << std::endl;
-  if (contadorNombres >= bloqueTamanyo) {
+  if (contadorIndexados >= bloqueTamanyo) {
     // Terminar un bloque.
   }
-  // Indexar.
-  ++contadorNombres;
+  fcp.indexar(documento);
+  ++contadorIndexados;
 }
 
 void IndexadorNombresDocumento::close() {
