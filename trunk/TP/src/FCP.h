@@ -24,12 +24,10 @@ class FCP {
     ManejadorArchivo manejadorArchivoDiferencias;
 
     std::string cadenaAnterior;
-    unsigned int offsetBytesCaracteres;
-    unsigned int offsetBitsCaracteres;
     unsigned int offsetBytesDiferencias;
     unsigned int offsetBitsDiferencias;
-
-
+    unsigned int offsetBytesCaracteres;
+    unsigned int offsetBitsCaracteres;
 
     FCP(const std::string &archivosSalidaRuta, const std::string &indiceNombre, const unsigned int bloqueTamanyo);
 
@@ -37,12 +35,11 @@ class FCP {
 
     void close();
 
-    void escribir(const std::string &cadenaActual);
+    void escribirSinCodificar(const std::string &cadenaActual);
 
-    unsigned int getOffsetBytesCaracteres();
-    unsigned int getOffsetBitsCaracteres();
-    unsigned int getOffsetBytesDiferencias();
-    unsigned int getOffsetBitsDiferencias();
+    void hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int &iguales, unsigned int &distintos);
+
+    void agregarOffsets(const unsigned int diferenciasBits, const unsigned int caracteresBits);
 };
 
 #endif /* FCP_H_ */

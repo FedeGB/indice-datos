@@ -22,6 +22,8 @@ class ManejadorArchivo {
     virtual ~ManejadorArchivo();
 
     void escribir(const char * const datos, const int cantidadBits);
+
+    void escribirSinCodificar(const std::string &cadena);
 };
 
 #endif /* MANEJADORARCHIVO_H_ */

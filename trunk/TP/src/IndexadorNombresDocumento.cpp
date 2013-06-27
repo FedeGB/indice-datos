@@ -24,12 +24,13 @@ IndexadorNombresDocumento::~IndexadorNombresDocumento() {
 void IndexadorNombresDocumento::indexar(const Documento &documento) {
   std::cout << "Ejecutando IndexadorNombresDocumento::indexar()." << std::endl;
   if (contadorIndexados >= bloqueTamanyo) {
-    // Terminar un bloque.
-    // obtener los offset de fcp, y escribirlo con el manejador de offset.
+    // Si llegué al tamaño máximo del bloque...
+    // Escribir los offsets del próximo bloque en el archivo de offsets de bloques.
+    offsetManejador.escribirOffsetsNombresDocumento(fcp.offsetBytesDiferencias, fcp.offsetBitsDiferencias, fcp.offsetBytesCaracteres);
     // Fuerzo un "caracteres iguales = 0" para la proxima cadena a escribir.
     fcp.cadenaAnterior = "";
   }
-  fcp.escribir(documento.nombre);
+  fcp.escribirSinCodificar(documento.nombre);
   ++contadorIndexados;
 }
 
