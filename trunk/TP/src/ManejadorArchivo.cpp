@@ -5,15 +5,17 @@
  *      Author: GRUPO 19
  */
 
-#include "ManejadorArchivo.h"
+#include "./ManejadorArchivo.h"
+#include <iostream>
 
 ManejadorArchivo::ManejadorArchivo(const std::string &archivoRuta) {
-	// TODO Auto-generated constructor stub
+  std::cout << "Ejecutando ManejadorArchivo::ManejadorArchivo()." << std::endl;
 }
 
 ManejadorArchivo::~ManejadorArchivo() {
-	// TODO Auto-generated destructor stub
+  std::cout << "Ejecutando ManejadorArchivo::~ManejadorArchivo()." << std::endl;
 }
 
 void escribir(const char * const datos, const int cantidadBits) {
+  std::cout << "Ejecutando ManejadorArchivo::escribir()." << std::endl;
 }
