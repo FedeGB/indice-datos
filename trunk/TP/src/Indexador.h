@@ -19,6 +19,8 @@ class Indexador {
     virtual ~Indexador();
 
     void indexar();
+    void indexarNombresDeDocumentos();
+    static int filtro(const struct dirent *pDirent);
 };
 
 #endif /* INDEXADOR_H_ */
