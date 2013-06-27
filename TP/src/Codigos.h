@@ -30,16 +30,16 @@ class CDelta {
 };
 
 class DDelta {
-	private:
-		static void leerBinario(uchar* bytes, size_t nBytes, uchar* buffer);
-		DDelta();
-	
-	public:
-		// Decodifica los bits de un array de bytes
-		// Post: Devuelve la cantidad de bits utilizados
-		static int decodificar(uchar* bytes, size_t nBytes, unsigned long int* numero);		
-		
-		virtual ~DDelta();
+  private:
+    static void leerBinario(uchar* bytes, size_t nBytes, uchar* buffer);
+    DDelta();
+
+  public:
+    // Decodifica los bits de un array de bytes
+    // Post: Devuelve la cantidad de bits utilizados
+    static int decodificar(uchar* bytes, size_t nBytes, unsigned long int* numero);
+
+    virtual ~DDelta();
 };
 
 /****************************

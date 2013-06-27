@@ -60,39 +60,39 @@ void CDelta::escribirBinario(uchar* binario, uchar* code, size_t bits) {
   return;
 }
 
+DDelta::DDelta() {
+}
 
-DDelta::DDelta() { }
-
-DDelta::~DDelta() { }
+DDelta::~DDelta() {
+}
 
 void DDelta::leerBinario(uchar* bytes, size_t nBytes, uchar* buffer) {
-	uchar char_buff = 0;
-	int bit_actual = 0;
-	for(int x = 0; x<(int)nBytes; x++) {
-		char_buff = bytes[x];
-		while(bit_actual < 8) {	
-			if((char_buff & (1<<bit_actual))) {
-				buffer[bit_actual+(8*x)] |= '1';
-			}
-			else {
-				buffer[bit_actual+(8*x)] |= '0';
-			}
-			bit_actual++;
-		}
-		bit_actual = 0;
-		char_buff = 0;
-	}
-	return;
+  uchar char_buff = 0;
+  int bit_actual = 0;
+  for (int x = 0; x < (int) nBytes; x++) {
+    char_buff = bytes[x];
+    while (bit_actual < 8) {
+      if ((char_buff & (1 << bit_actual))) {
+        buffer[bit_actual + (8 * x)] |= '1';
+      } else {
+        buffer[bit_actual + (8 * x)] |= '0';
+      }
+      bit_actual++;
+    }
+    bit_actual = 0;
+    char_buff = 0;
+  }
+  return;
 }
 
 int DDelta::decodificar(uchar* bytes, size_t nBytes, unsigned long int* numero) {
-	uchar buffer[(8*nBytes)+1];
-	memset(buffer, '\0', 8*nBytes);
-	leerBinario(bytes, nBytes, buffer);
-	buffer[8*nBytes] = '\0';
-	int x = 0;
-	*numero = delta_decode(buffer, &x);
-	return x;	
+  uchar buffer[(8 * nBytes) + 1];
+  memset(buffer, '\0', 8 * nBytes);
+  leerBinario(bytes, nBytes, buffer);
+  buffer[8 * nBytes] = '\0';
+  int x = 0;
+  *numero = delta_decode(buffer, &x);
+  return x;
 }
 
 /****************************
