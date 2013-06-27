@@ -14,23 +14,25 @@
 #include "./Indexador.h"
 #include "./RetornoCodigos.h"
 
-int main(int argc, char *argv[]) {
+int OTROmain(int argc, char *argv[]) {
   int retornoValor = ERROR;
-  if (argc != 3) {
+  if (argc < 5) {
     std::cout << "ERROR EN LA CANTIDAD DE ARGUMENTOS." << std::endl;
     retornoValor = ERROR_ARGC;
     std::cout << "FÍN DE PROGRAMA CONTROLADO, ECHO $? = " << retornoValor << std::endl;
     return retornoValor;
   } else {
+    // TODO (): Parsear argv, ver que diga -r y -q, y obtener el string del nombre del repositorio y el string de la consulta sin comillas.
     std::cout << "CANTIDAD DE ARGUMENTOS CORRECTA." << std::endl;
+    std::string repositorioNombre(argv[2]);
+    std::cout << "El nombre del repositorio es: " << repositorioNombre << std::endl;
+    std::string consulta("ACÁ VA LA CONSULTA");
+    std::cout << "La consulta es por: \"" << consulta << "\"" << std::endl;
   }
-  std::string repositorioNombre(argv[1]);
-  std::cout << "El nombre del repositorio es: " << repositorioNombre << std::endl;
-  std::string repositorioRuta(argv[2]);
-  std::cout << "La ruta del repositorio es: " << repositorioRuta << std::endl;
-  Indexador indexador(repositorioNombre, repositorioRuta);
+  std::string indiceRuta("./");
+  //Consultador consultador(indiceNombre, indiceRuta;
   {
-    indexador.indexar();
+    //consultador.consultar(consulta);
   }
   retornoValor = RESULTADO_OK;
   std::cout << "FÍN DE PROGRAMA CONTROLADO, ECHO $? = " << retornoValor << std::endl;
