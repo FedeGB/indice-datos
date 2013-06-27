@@ -9,6 +9,7 @@
  */
 
 #include <list>
+#include <set>
 #include <string>
 #include "./Documento.h"
 
@@ -21,8 +22,9 @@ class Indexador {
     virtual ~Indexador();
 
     void indexar();
-    void generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoArchivosAlfabetico);
+    void generarListadoAlfabeticoDeNombresDeDocumentos(std::list< Documento > &listadoDocumentosAlfabetico);
     static int filtro(const struct dirent *pDirent);
+    void indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, std::list< Documento > &listadoDocumentosAlfabetico);
 };
 
 #endif /* INDEXADOR_H_ */

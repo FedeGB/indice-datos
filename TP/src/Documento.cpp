@@ -1,5 +1,5 @@
 /*
- * Documento.h
+ * Documento.cpp
  *
  *  Created on: 27 Jun 2013
  *      Author: GRUPO 19
