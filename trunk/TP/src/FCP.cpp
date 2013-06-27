@@ -7,6 +7,7 @@
 
 #include "./FCP.h"
 #include <string>
+#include "./Codigos.h"
 
 #include <iostream>
 
@@ -32,11 +33,11 @@ void FCP::escribirSinCodificar(const std::string &cadenaActual) {
   cadenaAnterior = cadenaActual;
   std::string diferencia(cadenaActual.substr(iguales, std::string::npos));
   manejadorArchivoCaracteres.escribirSinCodificar(diferencia);
-  //Delta igualesDelta();
-  //Delta distintosDelta();
-  //manejadorArchivoDiferencias.escribir(igualesDelta.datos, igualesDelta.cantidadDeBits);
-  //manejadorArchivoDiferencias.escribir(distintosDelta.datos, distintosDelta.cantidadDeBits);
-  //agregarOffsets(igualesDelta.cantidadDeBits + distintosDelta.cantidadDeBits, distintos * 8);
+  CDelta igualesDelta(iguales);
+  CDelta distintosDelta(distintos);
+  manejadorArchivoDiferencias.escribir((char *) igualesDelta.codigo, igualesDelta.bits);
+  manejadorArchivoDiferencias.escribir((char *) distintosDelta.codigo, distintosDelta.bits);
+  agregarOffsets(igualesDelta.bits + distintosDelta.bits, distintos * 8);
 }
 
 void FCP::hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int &iguales, unsigned int &distintos) {
@@ -55,8 +56,8 @@ void FCP::hallarIgualesYDistintos(const std::string &cadenaActual, unsigned int 
 }
 
 void FCP::agregarOffsets(const unsigned int diferenciasBits, const unsigned int caracteresBits) {
-  unsigned int diferenciasBytes = 0;
-  unsigned int caracteresBytes = 0;
+  unsigned int diferenciasBytes = diferenciasBits / 8;
+  unsigned int caracteresBytes = caracteresBits / 8;
   offsetBytesDiferencias += diferenciasBytes;
   offsetBitsDiferencias += (diferenciasBits % 8);
   offsetBytesCaracteres += caracteresBytes;
