@@ -13,11 +13,12 @@
 
 class ManejadorArchivo {
   public:
-    std::fstream archivoHandler;
+    const std::string rutaConNombre;
+    std::ofstream archivoHandler;
     char buffer[1];
     char bitsEnBuffer;
 
-    ManejadorArchivo(const std::string &archivoRuta);
+    ManejadorArchivo(const std::string &rutaConNombre);
     virtual ~ManejadorArchivo();
 
     void escribir(const char * const datos, const int cantidadBits);

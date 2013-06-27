@@ -6,9 +6,11 @@
  */
 
 #include "./ManejadorArchivo.h"
+#include <fstream>
 #include <iostream>
 
-ManejadorArchivo::ManejadorArchivo(const std::string &archivoRuta) {
+ManejadorArchivo::ManejadorArchivo(const std::string &rutaConNombre)
+    : rutaConNombre(rutaConNombre), archivoHandler(rutaConNombre.c_str(), std::ofstream::out), buffer(), bitsEnBuffer(0) {
   std::cout << "Ejecutando ManejadorArchivo::ManejadorArchivo()." << std::endl;
 }
 
@@ -18,4 +20,5 @@ ManejadorArchivo::~ManejadorArchivo() {
 
 void escribir(const char * const datos, const int cantidadBits) {
   std::cout << "Ejecutando ManejadorArchivo::escribir()." << std::endl;
+  // TODO (): Método importante.
 }
