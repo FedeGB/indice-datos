@@ -109,7 +109,7 @@ void Indexador::indexarNombresDeDocumentosYOrdenarPorTamanyo(std::set< Documento
 void Indexador::indexarTerminos(std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) > &setDocumentosPorTamanyo, const std::string &archivosSalidaRuta) {
   std::cout << "Ejecutando Indexador::indexarTerminos()." << std::endl;
   // TODO (Imprescindible): El más importante.
-  std::set< Termino, bool (*)(const Termino &primero, const Termino &segundo) > listadoTerminos(Termino::ordenarAlfabeticamente);
+  std::set< Termino, bool (*)(const Termino &primero, const Termino &segundo) > listadoTerminos(Ordenamiento::ordenarAlfabeticamente);
   std::set< Documento, bool (*)(const Documento &primero, const Documento &segundo) >::iterator iterador = setDocumentosPorTamanyo.begin();
   Parser actual_parseando;
   std::string termino_actual;
