@@ -10,40 +10,37 @@ Parser::Parser(const std::string &path) {
 }
 
 int Parser::dameUnTermino(std::string &termino) {
-	if(file.eof())
-		return -1;
 	if(finish == 1) {
 		actual.clear();
 		file >> actual;
 		if(file.eof())
 			return -1;
 		finish = 0;
-	}
-	if( (isalnum(actual[pos]) == 0) && (pos == (int)actual.length()+1)) {
-		actual.clear();
-		file >> actual;
-		if(file.eof())
-			return -1;
-		finish = 0;
+		pos = 0;
 	}
 	
 	int av = pos;
 	char aux;
-	while((av < (int)actual.length()) || isalnum(actual[av])) {
-		//std::cout << (bool)isalnum(actual[av]) << std::endl;
+	while(isalnum(actual[av]) != 0) {
+		if((av == (int)actual.length()))
+			break;
 		aux = (char)tolower(actual[av]);
 		actual[av] = aux;
 		av++;
 	}
-	char* buffer = new char[av+1];
+	char* buffer = new char[av-pos+1];
 	int len = actual.copy(buffer, av-pos, pos);
 	buffer[len] = '\0';
 	if(av == (int)actual.length()) {
 		finish = 1;
 		pos = 0;
 	}
+	if(av+1 == (int)actual.length() && isalnum(actual[av]) == 0) {
+		finish = 1;
+		pos = 0;
+	}
 	else {
-		pos = av++;
+		pos = ++av;
 	}
 	termino.clear();
 	termino = buffer;
